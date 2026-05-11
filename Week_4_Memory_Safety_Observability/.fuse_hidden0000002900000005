@@ -1,0 +1,334 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tracing & Observability\n\n*Notebook 25*\n\nThe OpenAI Agents SDK captures a complete trace of every agent run automatically. This notebook shows you how to read those traces, what to look for when debugging, and how to use them to monitor production agents.\n<br>\n<br>\n\n**Topics:**\n- What tracing captures automatically \u2014 no setup required\n\n- Running agents that produce traces worth reading\n\n- Guided trace inspection \u2014 what to look for at each step\n\n- Debugging bad runs systematically \u2014 connecting reliability, evaluation, and observability\n\n- Comparing latency and token usage across model choices"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udd27 Setup"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pathlib import Path\nfrom dotenv import load_dotenv\nload_dotenv(dotenv_path=Path(\"..\") / \".env\")\n\nfrom agents import Agent, Runner, function_tool\n\n# Notebook-specific imports\nimport time\n\nMODEL = \"gpt-5-mini\"\nREASONING_MODEL = \"gpt-5\"\n\n\nprint(\"\u2705 Ready!\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": "## \ud83d\udd2d What Tracing Captures\n\nEvery `Runner.run()` call creates a trace automatically. Each trace contains:\n\n- The full input and output of the run\n- Every tool call \u2014 name, arguments, return value, and duration\n- Every model call \u2014 the exact prompt sent and response received\n- Token usage at each step (input tokens, output tokens)\n- Total latency and per-step latency\n- Handoffs between agents in multi-agent runs \u2014 handoff spans show which agent took over and when (patterns introduced in Lesson 14)\n- Errors and the exact step where they occurred\n\nA token is roughly a word or subword chunk \u2014 model pricing and context limits are based on tokens.",
+   "metadata": {}
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udd2c Part 1: Generating Traces Worth Reading\n\nWe need an agent with enough structure to make the trace interesting."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "INVENTORY = {\n    \"laptop\": {\"price\": 1299.99, \"stock\": 5, \"category\": \"electronics\"},\n    \"headphones\": {\"price\": 149.99, \"stock\": 23, \"category\": \"electronics\"},\n    \"notebook\": {\"price\": 4.99, \"stock\": 200, \"category\": \"stationery\"},\n    \"desk lamp\": {\"price\": 39.99, \"stock\": 0, \"category\": \"electronics\"}\n}\n\n\n@function_tool\ndef search_inventory(query: str) -> str:\n    \"\"\"Search inventory for products matching a query string.\"\"\"\n    matches = [\n        f\"{name}: ${item['price']:.2f} \u2014 category: {item.get('category', 'general')}\"\n        for name, item in INVENTORY.items()\n        if query.lower() in name.lower() or query.lower() in item[\"category\"]\n    ]\n    return \"\\n\".join(matches) if matches else f\"No products found for '{query}'\"\n\n\n@function_tool\ndef check_stock(product_name: str) -> str:\n    \"\"\"Check the exact stock quantity for a specific named product.\"\"\"\n    key = product_name.lower()\n    product = INVENTORY.get(key)\n    if not product and key.endswith(\"s\"):\n        product = INVENTORY.get(key[:-1])\n        if product:\n            key = key[:-1]\n    if not product:\n        return f\"Product '{product_name}' not found in inventory\"\n    status = \"In stock\" if product[\"stock\"] > 0 else \"Out of stock\"\n    return f\"{key}: {product['stock']} units \u2014 {status}\"\n\n\n@function_tool\ndef get_category_report(category: str) -> str:\n    \"\"\"Get a full inventory report for a product category.\"\"\"\n    items = [\n        (name, item) for name, item in INVENTORY.items()\n        if item[\"category\"] == category.lower()\n    ]\n    if not items:\n        return f\"No products in category '{category}'\"\n    total_value = sum(item[\"price\"] * item[\"stock\"] for _, item in items)\n    lines = [f\"  {name}: ${item['price']:.2f} \u00d7 {item['stock']} units\" for name, item in items]\n    return f\"Category: {category}\\n\" + \"\\n\".join(lines) + f\"\\nTotal inventory value: ${total_value:.2f}\"\n\n\ninventory_instructions = (\n    \"You are an inventory management assistant.\\n\"\n    \"- Use search_inventory to find products by name or category\\n\"\n    \"- Use check_stock to get exact stock quantities for specific products\\n\"\n    \"- Use get_category_report for full category summaries\\n\"\n    \"Always use the most specific tool available for each question.\"\n)\n\ninventory_agent = Agent(\n    name=\"InventoryAssistant\",\n    instructions=inventory_instructions,\n    model=MODEL,\n    tools=[search_inventory, check_stock, get_category_report]\n)\n\n# --------------------------------------------------------------\nprint(\"\u2705 Inventory agent ready\")\nprint(\"    Tools: search_inventory | check_stock | get_category_report\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "source": "Open the OpenAI traces dashboard at `https://platform.openai.com/traces` in a separate tab. Every `Runner.run()` you execute appears there within a few seconds, tagged by agent name. Keep this tab open as you work through the lesson.",
+   "metadata": {}
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"\ud83d\udd2c RUN 1: Focused question \u2014 should use check_stock\")\nprint(\"=\" * 60)\n\nstart = time.time()\n\nresult = await Runner.run(inventory_agent, input=\"How many laptops do we have in stock right now?\")\n\nelapsed = time.time() - start\n\nprint(f\"Response: {result.final_output}\")\nprint(f\"\\n\u23f1\ufe0f  {elapsed:.1f}s\")\nprint()\nprint(\"\ud83d\udccd TRACE INSPECTION CHECKLIST for Run 1:\")\nprint(\"    \u25a1 Find this trace: agent = 'InventoryAssistant', most recent\")\nprint(\"    \u25a1 How many tool call spans are there? (expect: 1)\")\nprint(\"    \u25a1 Which tool was called? (expect: check_stock)\")\nprint(\"    \u25a1 What argument was passed? (expect: 'laptop' or similar)\")\nprint(\"    \u25a1 What did the tool return? (expect: '5 units \u2014 In stock')\")\nprint(\"    \u25a1 What is the total token count?\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Run 2: A Broader Query\n\nA broader question that may use multiple tools."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "source": "print(\"\ud83d\udd2c RUN 2: Broad question \u2014 may produce one or two tool calls\")\nprint(\"=\" * 60)\n\nstart = time.time()\n\nresult = await Runner.run(inventory_agent, input=\"Give me a full electronics report and flag anything out of stock.\")\n\nelapsed = time.time() - start\n\nprint(f\"Response: {result.final_output}\")\nprint(f\"\\n\u23f1\ufe0f  {elapsed:.1f}s\")\nprint()\nprint(\"\ud83d\udccd TRACE INSPECTION CHECKLIST for Run 2:\")\nprint(\"    \u25a1 How many tool call spans are there? (expect: 1 or 2 \u2014 get_category_report alone is valid; the agent may also follow up with check_stock)\")\nprint(\"    \u25a1 Which tools were called and in what order?\")\nprint(\"    \u25a1 Did the agent use get_category_report for the full report?\")\nprint(\"    \u25a1 Did it rely on get_category_report alone, or did it also call check_stock?\")\nprint(\"    \u25a1 If it used only get_category_report, was that enough to answer correctly?\")\nprint(\"    \u25a1 Compare total tokens with Run 1 \u2014 which used more and why?\")\n",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": "### \ud83d\udca1 What These Traces Show\n\nRun 1 shows a clean single-tool trace. Run 2 may involve one or two tool calls. In the dashboard, look for: how many model-call (LLM) spans fired, which tools were called and in what order, and the token count difference vs Run 1. The exact tool count matters less than practicing how to read the trace structure."
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udc1b Part 2: Debugging a Bad Run\n\nThe real value of tracing is diagnosing failures. Here's a broken agent \u2014 the output is clearly wrong. Use the trace to find exactly why."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# This agent has a deliberate instruction bug:\n# It's told to use search_inventory for EVERYTHING \u2014\n# including questions where check_stock would give a precise answer.\n# search_inventory returns fuzzy results; check_stock returns exact counts.\n\nbuggy_instructions = (\n    \"You are an inventory assistant.\\n\"\n    \"For ALL questions \u2014 including specific stock counts \u2014 use search_inventory.\\n\"\n    \"Do not use check_stock or get_category_report under any circumstances.\"\n)\n\nbuggy_agent = Agent(\n    name=\"BuggyInventoryAgent\",\n    instructions=buggy_instructions,\n    model=MODEL,\n    tools=[search_inventory, check_stock, get_category_report]\n)\n\n# --------------------------------------------------------------\nprint(\"\u2705 Buggy agent ready\")\nprint(\"    Bug: forced to use search_inventory for everything\")\nprint(\"    This will produce imprecise answers for stock count questions\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Run Buggy Agent"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"\ud83d\udc1b DEBUGGING DEMO \u2014 Broken Agent\")\nprint(\"=\" * 60)\n\n# Ask for an exact stock count \u2014 the agent should use check_stock\n# but its buggy instructions force it to use search_inventory instead\n\nbroken_result = await Runner.run(buggy_agent, input=\"I need the exact stock count for laptops \u2014 how many units do we have?\")\n\nprint(f\"Buggy agent response:\")\nprint(broken_result.final_output)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Run Correct Agent"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "source": "# Now run the correct agent on the same question for comparison\n\ncorrect_result = await Runner.run(inventory_agent, input=\"I need the exact stock count for laptops \u2014 how many units do we have?\")\n\nprint(f\"Correct agent response:\")\nprint(correct_result.final_output)\nprint()\nprint(\"=\" * 60)\nprint(\"\ud83d\udccd DEBUGGING CHECKLIST:\")\nprint(\"    \u25a1 Find both traces \u2014 'BuggyInventoryAgent' vs 'InventoryAssistant'\")\nprint(\"    \u25a1 Buggy trace: which tool was called? (will be search_inventory)\")\nprint(\"    \u25a1 Buggy trace: what did search_inventory return?\")\nprint(\"    \u25a1 Correct trace: which tool was called? (should be check_stock)\")\nprint(\"    \u25a1 What exact difference in tool output explains the response difference?\")\nprint()\nprint(\"    The fix: update instructions to say 'use check_stock for exact counts'\")\nprint(\"    This is how you use a trace to go from symptom \u2192 root cause \u2192 fix.\")\n",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": "In your own projects, open the trace for any failed eval case (Lesson 09) or guardrail violation first \u2014 it turns the symptom into a concrete root cause. The diagnostic question is always the same: was the failure in tool selection, tool arguments, tool output, or the instructions that drove them?",
+   "metadata": {}
+  },
+  {
+   "cell_type": "markdown",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": "## \ud83d\udcc8 Part 3: Comparing Latency and Token Usage\n\nSo far we've used traces to explain wrong behavior; now we'll use the same trace data for a different job \u2014 comparing cost, latency, and model choice.\n\nRun the same query on `MODEL` and `REASONING_MODEL`. The trace shows the real cost and latency difference \u2014 use this to make informed model selection decisions."
+  },
+  {
+   "cell_type": "markdown",
+   "source": "This is the reusable pattern for your own projects: hold the task constant, change one variable at a time (model, instructions, or tool set), then compare the traces.",
+   "metadata": {}
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udcc8 Part 3: Comparing Latency and Token Usage\n\nRun the same query on `MODEL` and `REASONING_MODEL`. The trace shows the real cost and latency difference \u2014 use this to make informed model selection decisions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Same agent, same tools, same query \u2014 different model\n\nanalysis_instructions = (\n    \"You are an inventory analyst.\\n\"\n    \"Analyze inventory data and make restocking recommendations.\\n\"\n    \"Consider stock levels, prices, and categories in your analysis.\"\n)\n\nanalysis_agent_mini = Agent(\n    name=\"InventoryAnalyst_mini\",\n    instructions=analysis_instructions,\n    model=MODEL,\n    tools=[search_inventory, check_stock, get_category_report]\n)\n\nanalysis_agent_full = Agent(\n    name=\"InventoryAnalyst_full\",\n    instructions=analysis_instructions,\n    model=REASONING_MODEL,\n    tools=[search_inventory, check_stock, get_category_report]\n)\n\n# --------------------------------------------------------------\nprint(\"\u2705 Two analyst agents ready\")\nprint(f\"    Mini:  {MODEL}\")\nprint(f\"    Full:  {REASONING_MODEL}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Same Query, Two Models"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "analysis_query = (\n    \"Review all inventory categories. Identify which products need restocking \"\n    \"and prioritize them by urgency. Explain your reasoning.\"\n)\n\nprint(\"\ud83d\udcc8 MODEL COMPARISON\")\nprint(\"=\" * 60)\nprint(f\"Query: {analysis_query}\\n\")\n\nfor label, agent in [(f\"MODEL ({MODEL})\", analysis_agent_mini),\n                      (f\"REASONING_MODEL ({REASONING_MODEL})\", analysis_agent_full)]:\n    start = time.time()\n\n    result = await Runner.run(agent, input=analysis_query)\n\n    elapsed = time.time() - start\n\n    print(f\"\\n--- {label} ---\")\n    print(f\"Time: {elapsed:.1f}s\")\n    print(f\"Response ({len(result.final_output)} chars):\")\n    print(result.final_output)\n\nprint(\"\\n\" + \"=\" * 60)\nprint(\"\ud83d\udccd COMPARISON CHECKLIST (check both traces in the dashboard):\")\nprint(\"    \u25a1 Which model took longer? By how much?\")\nprint(\"    \u25a1 Which used more input tokens? Output tokens?\")\nprint(\"    \u25a1 Which produced the more actionable recommendation?\")\nprint(\"    \u25a1 For this task, is the quality difference worth the cost difference?\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### \ud83d\udca1 Why This Matters\n\nToken counts in the trace are the ground truth for cost estimation. Latency in the trace is the ground truth for performance. Running the same query on both models and comparing traces is how you make the `MODEL` vs `REASONING_MODEL` decision with data rather than intuition.\n\nIn production, these same metrics tell you when something regressed \u2014 a spike in token usage or latency compared to yesterday's baseline is a signal worth investigating before users notice."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udcaa Practice Exercises"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise 1: Trace-Driven Debug\n\n*Covers: tracing \u2014 diagnosing bugs from trace output*\n\nA broken agent is provided. Run it, find the bug using only the trace, fix it, and confirm the fix."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# --------------------------------------------------------------\n# \ud83d\udcaa Exercise 1: Trace-Driven Debug\n# --------------------------------------------------------------\n# Objective: Use the dashboard trace to find and fix a bug.\n\n# This agent has a bug that causes incorrect category reports.\n# The bug is in its instructions \u2014 NOT in the tools.\n\ncategory_broken_instructions = (\n    \"You are an inventory assistant.\\n\"\n    \"When asked about a category, use search_inventory with the category name.\\n\"\n    \"Do not use get_category_report.\"\n)\n\ncategory_agent_broken = Agent(\n    name=\"CategoryAgent_broken\",\n    instructions=category_broken_instructions,\n    model=MODEL,\n    tools=[search_inventory, check_stock, get_category_report]\n)\n\n# TODO 1: Run this agent with: \"Give me a full report on the electronics category\"\n#           including total inventory value.\"\n\n# TODO 2: Open the trace and answer:\n#           a) Which tool did it call?\n#           b) What did that tool return?\n#           c) Did the response include total inventory value? (it shouldn't)\n#           d) Which tool SHOULD have been called?\n\n# TODO 3: Create a fixed version of the agent with corrected instructions\n#           Run the same query and confirm:\n#           - The trace shows get_category_report was called\n#           - The response includes total inventory value\n\n# --- Write your code below this line ---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": "## \ud83c\udfaf Key Takeaways\n\n**Tracing is automatic:**\n\n- Every `Runner.run()` call creates a trace \u2014 no configuration needed\n\n- The OpenAI dashboard shows recent traces for your runs\n\n- Each trace is a complete audit trail of every decision the agent made\n<br>\n<br>\n\n**Use traces to debug:**\n\n- Start with the symptom (wrong output), then trace backward through tool calls\n\n- Check tool arguments first \u2014 wrong input to a correct tool is a common failure\n\n- Check tool outputs next \u2014 the tool may have returned something unexpected\n\n- Check the model-call (LLM) span last \u2014 see exactly what prompt the model saw\n<br>\n<br>\n\n**Use traces to monitor and decide:**\n\n- Token counts are the ground truth for cost estimation\n\n- Per-step latency shows which step is the bottleneck\n\n- More tool calls than expected usually points to an instruction problem\n\n- Run the same query on `MODEL` vs `REASONING_MODEL` and compare traces before committing to either"
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# --------------------------------------------------------------\n# \ud83d\udcaa Exercise 2: Your Own Latency Experiment\n# --------------------------------------------------------------\n# Objective: Use traces to answer a question about agent performance.\n\n# Choose ONE of these experiments:\n\n# Option A: Simple vs complex query\n#     Run inventory_agent on a simple question and a complex question\n#     Compare: tool call count, total tokens, latency\n#     Question to answer: does query complexity linearly affect latency?\n\n# Option B: 1 tool vs 3 tools in instructions\n#     Create two agents \u2014 one with only check_stock, one with all 3 tools\n#     Run both on: \"How many laptops do we have?\"\n#     Compare: does having more tools available slow down simple queries?\n\n# Option C: Your own question\n#     Design an experiment that uses traces to answer something you're curious about\n\n# TODO 1: Choose an option and set up your experiment\n# TODO 2: Run both conditions\n# TODO 3: Compare the traces in the dashboard\n# TODO 4: Write your findings as comments \u2014 what did you learn?\n\n# --- Write your code below this line ---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83c\udfaf Key Takeaways\n\n**Tracing is automatic:**\n\n- Every `Runner.run()` call creates a trace \u2014 no configuration needed\n\n- The OpenAI dashboard shows recent traces for your runs\n\n- Each trace is a complete audit trail of every decision the agent made\n<br>\n<br>\n\n**Use traces to debug:**\n\n- Start with the symptom (wrong output), then trace backward through tool calls\n\n- Check tool arguments first \u2014 wrong input to a correct tool is a common failure\n\n- Check tool outputs next \u2014 the tool may have returned something unexpected\n\n- Check the LLM span last \u2014 see exactly what prompt the model saw\n<br>\n<br>\n\n**Use traces to monitor and decide:**\n\n- Token counts are the ground truth for cost estimation\n\n- Per-step latency shows which step is the bottleneck\n\n- More tool calls than expected usually points to an instruction problem\n\n- Run the same query on `MODEL` vs `REASONING_MODEL` and compare traces before committing to either"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## \ud83d\udccd Next Step\n\n**Notebook 26: Capstone #3**  \n\nBuild a multi-tool agent with sessions, guardrails, human-in-the-loop approval, and tracing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "##### \ud83d\udd27 [Troubleshooting Guide](https://github.com/barrettscott/openai-agents/blob/main/TROUBLESHOOTING.md#lesson-25-tracing-and-observability)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "openai-agents",
+   "language": "python",
+   "name": "openai-agents"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.14"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
