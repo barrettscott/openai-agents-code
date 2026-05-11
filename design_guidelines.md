@@ -781,25 +781,7 @@ The model can't override it — it's Python, not a prompt suggestion.
 
 ---
 
-**Example 3 — Cut the framing label, start on the insight:**
-
-Before:
-```
-You've shipped a multi-agent pipeline. The pattern generalizes: any workflow
-that needs to coordinate across specialized agents lives in this shape.
-```
-
-After:
-```
-You've shipped a multi-agent pipeline. Any workflow that needs to coordinate
-across specialized agents lives in this shape.
-```
-
-*Pattern:* "The pattern generalizes:", "The insight here:", "What this means:" — cut the label and open directly on the insight. If the sentence needs an announcement before it can land, the sentence isn't sharp enough.
-
----
-
-**Example 4 — Merge two consecutive sentences that express one idea:**
+**Example 3 — Merge two consecutive sentences that express one idea:**
 
 Before:
 ```
@@ -815,7 +797,7 @@ The second shape is almost always better — design tools the agent can safely r
 
 ---
 
-**Example 5 — Cut "That's the win" / "That's the point" meta-commentary:**
+**Example 4 — Cut meta-commentary labels; break remaining ideas into camera lines:**
 
 Before:
 ```
@@ -826,16 +808,16 @@ policy stays stable while your tool inventory grows.
 
 After:
 ```
-When you add a new tool and mark it as requiring human approval, the guardrail
-automatically catches it — no rewrite needed. The policy stays stable as your
-tool inventory grows.
+Mark a tool as requiring approval and the guardrail catches it — no rewrite needed.
+
+The policy stays stable as your tool inventory grows.
 ```
 
-*Pattern:* "That's the win:", "That's the point:", "This is why it matters:" — cut the label and let the sentence carry itself. If the insight needs a label to land, the insight isn't sharp enough; sharpen it instead.
+*Pattern:* "That's the win:", "That's the point:", "This is why it matters:" — cut the label and show the win directly. Break the remaining ideas into separate lines, one per camera beat.
 
 ---
 
-**Example 6 — Cut opener that restates what the code cell already showed:**
+**Example 5 — Cut throat-clearing openers:**
 
 Before:
 ```
@@ -851,11 +833,11 @@ product strategy, but halfway through there's an injection payload telling
 the agent to ignore its instructions.
 ```
 
-*Pattern:* "Simple setup." and "What's happening here:" are throat-clearing openers — cut them. The content that follows does the work.
+*Pattern:* "Simple setup.", "What's happening here:", "The pattern generalizes:", and similar throat-clearing openers — cut them. The content that follows does the work.
 
 ---
 
-**Example 7 — Let the list do the work; cut the windup:**
+**Example 6 — Let the list do the work; cut the windup:**
 
 Before:
 ```
@@ -872,7 +854,7 @@ Every file, every web page, every tool result is a potential injection vector.
 
 ---
 
-**Example 8 — Compress the negative form:**
+**Example 7 — Compress the negative form:**
 
 Before:
 ```
@@ -885,6 +867,52 @@ The output type returns a structured object — it only validates.
 ```
 
 *Pattern:* "doesn't X, it just Y" → "only Y". The negation adds a beat without adding meaning.
+
+---
+
+**Example 8 — Cut redundant restatement across consecutive lines:**
+
+Before:
+```
+The model does not inspect the Python function body. It sees the tool name, description, and schema.
+
+The model picks the tool that best matches the question — or calls none.
+
+The decision is based on name, description, and schema.
+
+When the model picks wrong, rewrite the tool — not the agent logic.
+```
+
+After:
+```
+The model does not inspect the Python function body — it sees only the name, description, and schema.
+
+The description drives tool choice.
+
+When the model picks wrong, rewrite the description, not the agent logic.
+```
+
+*Pattern:* Two sentences that express one idea get merged with an em dash. Consecutive lines that restate the same fact get cut to one. Each remaining sentence gets its own line with a blank line between — one beat per line on camera.
+
+---
+
+**Example 9 — Break a dense Why This Works paragraph into camera-ready lines:**
+
+Before:
+```
+`WebSearchTool()` is a built-in hosted tool — OpenAI runs the search on their side, no third-party API required. This is called **grounding**: the agent's answer is anchored to retrieved content rather than generated from training data alone. Grounded responses are more accurate for time-sensitive questions and less likely to confabulate facts.
+```
+
+After:
+```
+`WebSearchTool()` is a built-in tool — OpenAI runs the search, no API key needed.
+
+This **grounds** the agent's answer in real retrieved content instead of training data.
+
+The result: better accuracy on time-sensitive questions and less hallucination.
+```
+
+*Pattern:* A dense multi-sentence paragraph in a Why This Works cell becomes one sentence per idea, each on its own line with a blank line between. Cut technical jargon ("confabulate", "anchored to retrieved content") in favor of plain language. The last line lands the student benefit. This applies to all explanatory prose cells — opening cells, Part intro cells, Why This Works cells — anywhere prose will be read on camera.
 
 ---
 
