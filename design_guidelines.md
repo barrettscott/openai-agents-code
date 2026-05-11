@@ -8,7 +8,7 @@
 
 When reviewing a notebook, apply these in order. A notebook that passes these four categories is in good shape even if it has minor style inconsistencies elsewhere in this document.
 
-1. **Correctness and honesty.** Teaching patterns actually work. No claims the agent does something it doesn't. UI history is not presented as agent memory unless the notebook explicitly addresses the distinction. Security notes are present where required.
+1. **Correctness and honesty.** Teaching patterns actually work. No claims the agent does something it doesn't. UI history is not presented as agent memory unless the notebook explicitly addresses the distinction. Security notes are present where required. Permission modes match the lesson's safety level.
 
 2. **Section order.** End-of-notebook structure follows the standard order: Practice Exercises → Key Takeaways → Next Step → Troubleshooting → Course Complete (final notebook only). Course Complete, when present, always comes after Troubleshooting.
 
@@ -51,13 +51,13 @@ In this notebook, we'll turn Python functions into tools your agent can call...
 
 **Key Takeaways:** Use `## 🎯 Key Takeaways` near the end.
 
-**Troubleshooting:** From Lesson 03 onward, the Troubleshooting section is replaced with a single link to the course TROUBLESHOOTING.md file, using a `#####` heading to keep it visually unobtrusive:
+**Troubleshooting:** All notebooks use a single link to the course TROUBLESHOOTING.md file, using a `#####` heading to keep it visually unobtrusive:
 
 ```markdown
 ##### 🔧 [Troubleshooting Guide](https://github.com/barrettscott/openai-agents/blob/main/TROUBLESHOOTING.md#lesson-XX-title)
 ```
 
-Lessons 01 and 02 keep inline Troubleshooting content since students may not have a working environment or API key yet and can't easily use an LLM. From Lesson 03 onward, lesson-specific troubleshooting content lives in TROUBLESHOOTING.md and is covered on camera by pointing students to that file.
+Lesson-specific troubleshooting content lives in TROUBLESHOOTING.md and is covered on camera by pointing students to that file. The link requires only a browser — students can access GitHub even if their Python environment isn't working yet.
 
 ---
 
@@ -71,7 +71,7 @@ The standard end-of-notebook section order is:
 4. `---` divider
 5. `## 📍 Next Step`
 6. `---` divider
-7. `## 🔧 Troubleshooting`
+7. `##### 🔧 [Troubleshooting Guide](https://github.com/barrettscott/openai-agents/blob/main/TROUBLESHOOTING.md#lesson-XX-title)` (link-only, no section header)
 8. `---` divider
 9. Course Complete cell (only in the final notebook — Lesson 32)
 10. `---` divider
@@ -154,6 +154,16 @@ When there are multiple exercises:
 
 **Rule:** Every exercise must include a `*Covers:*` italic line immediately after the title, on its own line, followed by a blank line. This ties the exercise back to a specific concept or part from the notebook — essential for instructors reading on camera. Format: `*Covers: [concept or Part N] — [brief description]*`
 
+**Rule:** Do not add a description sentence after `*Covers:*` unless it provides scenario context or constraints the `*Covers:*` line can't capture. A sentence that merely restates the `*Covers:*` line in different words should be cut.
+```
+❌ Cut — restates *Covers:*:
+*Covers: handoffs — routing between agents*
+Route a question to the right specialist using handoffs.
+✅ Keep — adds scenario context:
+*Covers: handoffs — routing between agents*
+You're building a triage agent for a customer service team with billing and technical specialists.
+```
+
 **Rule:** Do not add a separate intro sentence under the Practice Exercises header unless it adds essential context. In most notebooks, go directly into the first exercise.
 
 **Standard format — code cell:**
@@ -229,6 +239,15 @@ Design exercise cells must still follow standard cell formatting: comment header
   `Agent`, `Runner.run()`, and tool definitions.
 
   Change one instruction and the agent's entire behavior changes.
+  ```
+
+- **No semicolons in presented cells:** Avoid semicolons in any cell presented on camera — split into two sentences instead. A semicolon almost always signals a sentence that should be broken.
+  ```
+  ❌ Before:
+  `Runner.run()` returns a coroutine; await it to get the result.
+  ✅ After:
+  `Runner.run()` returns a coroutine.
+  Await it to get the result.
   ```
 
 - **Bullet list spacing:** Always add a blank line between bullet items in markdown cells. VS Code notebook rendering compresses bullet lists without blank lines, which looks cramped on camera. This applies to all bullet lists — Topics, Key Takeaways, and any other markdown cell with a list. Exception: Troubleshooting sections keep tight spacing (no blank lines between bullets) because they are dense reference content, not presented on camera.
@@ -700,7 +719,7 @@ The fix is a one-sentence warning near the first UI demo and a reinforcing bulle
 
 ## Troubleshooting Sections
 
-Lessons 01 and 02 contain inline troubleshooting content (5–6 problems maximum, 3 bullets per problem). From Lesson 03 onward, the troubleshooting section is a single link to TROUBLESHOOTING.md. Lesson-specific content is maintained there.
+All notebooks use a single link to TROUBLESHOOTING.md. Lesson-specific content is maintained there.
 
 ---
 
@@ -728,7 +747,7 @@ These rules address how notebooks render in exports and downstream platforms, no
 
 ## Emojis
 
-- **Keep:** Section headers (e.g. `## 🎯 Key Takeaways`, `## 🔧 Troubleshooting`), semantic emojis in code output (✅/❌, 🔬, 🤝, 🛠️).
+- **Keep:** Section headers (e.g. `## 🎯 Key Takeaways`, `## 📍 Next Step`), semantic emojis in code output (✅/❌, 🔬, 🤝, 🛠️).
 - **Keep:** The `## 🎯 Key Takeaways` section header emoji.
 - **Remove:** Emojis from bold sub-headers inside Key Takeaways — use plain bold text.
   - ✅ Correct: `**Sessions add context across turns:**`
@@ -913,6 +932,114 @@ The result: better accuracy on time-sensitive questions and less hallucination.
 ```
 
 *Pattern:* A dense multi-sentence paragraph in a Why This Works cell becomes one sentence per idea, each on its own line with a blank line between. Cut technical jargon ("confabulate", "anchored to retrieved content") in favor of plain language. The last line lands the student benefit. This applies to all explanatory prose cells — opening cells, Part intro cells, Why This Works cells — anywhere prose will be read on camera.
+
+---
+
+**Example 10 — Strip a decision-guide cell to camera-ready bullets:**
+
+Before:
+```
+## 🧭 Part 4: Picking the Right Approach
+
+You now have three layers: modes, rules, callbacks. Here's how to pick:
+
+- **Permission mode only** — when you want a broad behavioral default. "This agent is a prototyping helper, auto-approve edits." → `acceptEdits`.
+
+- **Mode + `allowed_tools`/`disallowed_tools`** — when you need a fixed tool surface. "This CI agent uses Read, Grep, and Bash, nothing else." → `default` + narrow `allowed_tools`.
+
+- **Mode + rules + `can_use_tool`** — when you need content-aware decisions. "Allow Bash but block destructive commands; rewrite Write calls to a sandbox directory." → `default` + callback. (Don't add Bash to `allowed_tools` — that would bypass the callback.)
+
+A few quick guidelines:
+
+- **Start with `default`** — the extra prompts teach you what the agent actually reaches for. You can loosen later.
+
+- **`bypassPermissions` + `disallowed_tools`** is the right pattern for trusted environments that need specific hard blocks. Never use `bypassPermissions` alone outside a sandbox.
+```
+
+After:
+```
+## 🧭 Part 4: Picking the Right Approach
+
+Three layers, three questions:
+
+- **Mode only** — what's the broad default? Use `acceptEdits` for edit-heavy agents, `default` for everything else.
+
+- **Mode + rules** — is the tool surface fixed? Use `allowed_tools`/`disallowed_tools` to lock it down.
+
+- **Mode + rules + callback** — do decisions depend on content? Use `can_use_tool` to inspect and rewrite arguments at runtime.
+```
+
+*Pattern:* Decision-guide cells with quoted examples and trailing guidelines sections are reference docs disguised as narrated content. Strip each bullet to one line: the condition and the answer. Cut quoted examples — the demos already showed them. Cut the guidelines section entirely if KT already covers the same points. Three bullets max; each must fit on one camera line.
+
+---
+
+**Example 11 — Cut a Why This Works cell to its core insight:**
+
+Before:
+```
+### 💡 Why This Works
+
+When the callback returns `PermissionResultDeny`, the tool call never executes.
+
+Claude sees the denial message and adjusts — typically it explains the command was blocked and asks what to do instead.
+
+This is deterministic safety: your check runs before the shell does, regardless of how the agent frames the command.
+
+Substring matching is illustrative — real-world attackers can evade it; Hooks in Lesson 22 are the stronger production pattern.
+```
+
+After:
+```
+### 💡 Why This Works
+
+When the callback returns `PermissionResultDeny`, the tool call never executes.
+
+Claude sees the denial message and adjusts — usually explaining the block and asking what to do next.
+```
+
+*Pattern:* Why This Works cells default to one clear sentence — two at most. Cut lines that restate the demo result ("your check runs before the shell" is implied by "the tool call never executes"). Cut forward references and caveats ("Hooks in Lesson 22 are stronger") — they belong in KT or a security note, not in the Why This Works explanation. End on what the student needs to carry forward.
+
+---
+
+**Example 12 — Cut lines the demo code already shows:**
+
+Before:
+```
+## 🎛️ Part 3: The `can_use_tool` Callback
+
+Modes and rules are static — set when you build `ClaudeAgentOptions`.
+
+For runtime decisions, you need the `can_use_tool` callback.
+
+The callback fires for tool calls not already resolved by the mode or deny rules.
+
+It receives the tool name and Claude's intended input, and returns one of:
+
+- `PermissionResultAllow()` — approve as-is
+
+- `PermissionResultAllow(updated_input=...)` — approve with rewritten arguments
+
+- `PermissionResultDeny(message=...)` — block with a reason Claude sees
+```
+
+After:
+```
+## 🎛️ Part 3: The `can_use_tool` Callback
+
+Modes and rules are static — set when you build `ClaudeAgentOptions`.
+
+For runtime decisions, you need the `can_use_tool` callback.
+
+It returns one of three decisions:
+
+- `PermissionResultAllow()` — approve as-is
+
+- `PermissionResultAllow(updated_input=...)` — approve with rewritten arguments
+
+- `PermissionResultDeny(message=...)` — block with a reason Claude sees
+```
+
+*Pattern:* Cut prose lines that describe what the code already shows. "The callback fires for tool calls not already resolved" is visible in the evaluation order — don't narrate the plumbing. "It receives the tool name and Claude's intended input" is visible in the function signature — don't narrate the signature. Keep only what the code can't show: why this design choice exists and what the student should take away.
 
 ---
 
