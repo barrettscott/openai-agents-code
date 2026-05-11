@@ -1,0 +1,61 @@
+# AI Agents with Python & the OpenAI Agents SDK - Course Environment
+#
+# This file creates an isolated conda environment with all packages needed
+# for the course notebooks.
+#
+# Setup:
+#   conda env create -f environment.yml
+#   conda activate openai-agents
+#
+# Update (if needed):
+#   conda env update -f environment.yml --prune
+#
+# What's included:
+#   • Python 3.11 (supported through October 2027)
+#   • JupyterLab for interactive notebooks
+#   • OpenAI Agents SDK for building AI agents
+#   • Secure API key management
+#
+# Note: You'll create your .env file with your OpenAI API key in M01A
+name: openai-agents
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # ----- Core Python and Jupyter -----
+  - python=3.11.*     # Course tested on Python 3.11.x
+  - jupyterlab>=4.0   # Interactive notebook interface (optional — course uses VS Code)
+  - ipykernel         # Python kernel for Jupyter
+  - ipywidgets        # Notebook progress bars (required by chromadb)
+  - pip               # Package installer for pip-only packages
+  # ----- Python packages via pip -----
+  - pip:
+      # OpenAI Agents SDK (all modules)
+      - openai-agents>=0.13.0,<1.0
+
+      # OpenAI Python client for vector stores & file uploads (Module 4, 9)
+      - openai>=1.0.0,<3.0
+
+      # Secure API key management (Module 1)
+      - python-dotenv>=1.0.0
+
+      # Structured outputs (Module 2)
+      - pydantic>=2.0.0
+
+      # Vector memory with ChromaDB (Module 6)
+      - chromadb>=0.4.0
+
+      # Chat interface (Module 9)
+      - gradio>=6.0
+
+      # MCP server runner (Module 8)
+      - uv>=0.2.0
+
+      # API wrapper (Module 9)
+      - fastapi>=0.110.0
+
+      # ASGI server for FastAPI (Module 9)
+      - uvicorn>=0.29.0 
+
+
+      

@@ -1,0 +1,11 @@
+{
+    "notebook.output.wordWrap": true,
+    "notebook.globalToolbar": true,
+    "files.exclude": {
+        "**/.ipynb_checkpoints": true,
+        "**/__pycache__": true
+    },
+    "editor.wordWrap": "on",
+    "breadcrumbs.enabled": false,
+    "python.defaultInterpreterPath": "/opt/anaconda3/envs/openai-agents/bin/python"
+}
