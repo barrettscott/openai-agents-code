@@ -149,7 +149,7 @@ conda --version
 <summary><b>🍎 macOS</b></summary>
 
 1. Go to the [Miniconda download page](https://docs.conda.io/en/latest/miniconda.html)
-2. **Apple Silicon (M1/M2/M3/M4):** Download "Miniconda3 macOS Apple M1 64-bit pkg"
+2. **Apple Silicon (M1/M2/M3/M4):** Download the macOS Apple Silicon (arm64) `.pkg` installer
 3. **Intel Macs:** Use this direct link: [Miniconda3-latest-MacOSX-x86_64.pkg](https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.pkg)
 
    > *Not sure which Mac you have? Click Apple menu → About This Mac and look for Chip or Processor.*
@@ -358,8 +358,8 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 **🐧 Linux:**
 - **Permission errors:** Avoid using `sudo` with conda commands
-- **Missing packages:** `sudo apt install build-essential` (Ubuntu)
-- **Unzip not found:** `sudo apt install unzip` (Ubuntu)
+- **Missing build tools:** install via your distro's package manager — e.g. `sudo apt install build-essential` (Ubuntu/Debian), `sudo dnf groupinstall "Development Tools"` (Fedora), `sudo pacman -S base-devel` (Arch)
+- **`unzip` or `wget` not found:** install via your distro's package manager — e.g. `sudo apt install unzip wget` (Ubuntu/Debian)
 
 **🍎 macOS:**
 - **Xcode issues:** Run `xcode-select --install` if you get compiler errors
