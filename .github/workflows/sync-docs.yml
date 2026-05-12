@@ -37,10 +37,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet README.md TROUBLESHOOTING.md; then
+          git add README.md TROUBLESHOOTING.md
+          if git diff --cached --quiet; then
             echo "No changes to mirror."
             exit 0
           fi
-          git add README.md TROUBLESHOOTING.md
           git commit -m "sync README + TROUBLESHOOTING from openai-agents-code@${GITHUB_SHA::7}"
           git push
