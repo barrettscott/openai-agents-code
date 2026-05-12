@@ -126,6 +126,20 @@ Then restart the kernel.
 
 ---
 
+### A file is hidden in the VS Code Explorer
+
+The workspace hides a few files by default (`.gitignore`, `.ipynb_checkpoints/`, `__pycache__/`). Two entries — `.vscode` and `.env` — are listed as `false` so you can see them but flip to `true` to hide if you prefer. To bring a hidden file back:
+
+1. `Cmd+Shift+P` (Mac) / `Ctrl+Shift+P` (Windows/Linux) → type **"Preferences: Open Workspace Settings (JSON)"** → Enter
+2. In the `files.exclude` block, change the file's value from `true` to `false`
+3. The Explorer updates immediately — no reload needed
+
+Alternative: open Settings UI (`Cmd+,` / `Ctrl+,`) → search **"files: exclude"** → toggle entries visually.
+
+The hidden state is a view filter only — settings still apply, and Quick Open (`Cmd+P` / `Ctrl+P`) finds hidden files by name.
+
+---
+
 ## By Notebook
 
 Lesson-specific issues are listed here as the course is reviewed.
