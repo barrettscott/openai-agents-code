@@ -1,0 +1,40 @@
+name: Mirror README to openai-agents
+
+on:
+  push:
+    branches: [master]
+    paths: ['README.md']
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: README.md
+          sparse-checkout-cone-mode: false
+
+      - name: Checkout target
+        uses: actions/checkout@v4
+        with:
+          repository: barrettscott/openai-agents
+          token: ${{ secrets.MIRROR_TOKEN }}
+          path: _target
+
+      - name: Copy README
+        run: cp README.md _target/README.md
+
+      - name: Commit and push
+        working-directory: _target
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet README.md; then
+            echo "No changes to mirror."
+            exit 0
+          fi
+          git add README.md
+          git commit -m "sync README from openai-agents-code@${GITHUB_SHA::7}"
+          git push
