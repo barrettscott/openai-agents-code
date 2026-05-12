@@ -3,7 +3,18 @@
     "notebook.globalToolbar": true,
     "files.exclude": {
         "**/.ipynb_checkpoints": true,
-        "**/__pycache__": true
+        "**/__pycache__": true,
+        ".claude": true,
+        ".env": true,
+        ".github": true,
+        "cc_corrections.md": true,
+        "claude-code": true,
+        "course_outline.md": true,
+        "design_guidelines.md": true,
+        "handoff_note.md": true,
+        "nbr": true,
+        "summaries": true,
+        "temp": true
     },
     "editor.wordWrap": "on",
     "breadcrumbs.enabled": false,
