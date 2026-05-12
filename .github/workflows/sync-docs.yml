@@ -1,9 +1,11 @@
-name: Mirror README to openai-agents
+name: Mirror docs to openai-agents
 
 on:
   push:
     branches: [master]
-    paths: ['README.md']
+    paths:
+      - 'README.md'
+      - 'TROUBLESHOOTING.md'
   workflow_dispatch:
 
 jobs:
@@ -13,7 +15,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
         with:
-          sparse-checkout: README.md
+          sparse-checkout: |
+            README.md
+            TROUBLESHOOTING.md
           sparse-checkout-cone-mode: false
 
       - name: Checkout target
@@ -23,18 +27,20 @@ jobs:
           token: ${{ secrets.MIRROR_TOKEN }}
           path: _target
 
-      - name: Copy README
-        run: cp README.md _target/README.md
+      - name: Copy docs
+        run: |
+          cp README.md _target/README.md
+          cp TROUBLESHOOTING.md _target/TROUBLESHOOTING.md
 
       - name: Commit and push
         working-directory: _target
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet README.md; then
+          if git diff --quiet README.md TROUBLESHOOTING.md; then
             echo "No changes to mirror."
             exit 0
           fi
-          git add README.md
-          git commit -m "sync README from openai-agents-code@${GITHUB_SHA::7}"
+          git add README.md TROUBLESHOOTING.md
+          git commit -m "sync README + TROUBLESHOOTING from openai-agents-code@${GITHUB_SHA::7}"
           git push
