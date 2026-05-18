@@ -70,7 +70,7 @@ Download `openai-agents.zip` from the Resources tab in the course player.
 ![Download from Resources tab](images/download-resources.png)
 
 > [!NOTE]
-> The commands below assume the file is in your **Downloads** folder and is named exactly `openai-agents.zip`.
+> The commands below assume the file is in your `📁 Downloads` folder and is named exactly `openai-agents.zip`.
 
 ![Terminal commands to unzip files](images/dir_path.png)
 
@@ -273,8 +273,14 @@ You should see all the course notebooks and files in the Explorer panel on the l
 > [!NOTE]
 > **Trust prompt:** VS Code will ask whether you trust the authors — click **"Yes, I trust the authors"**. This only appears once.
 
+![Directory Path](images/vscode-trust-authors-dialog.png)
+
 > [!NOTE]
 > **Extensions:** VS Code will prompt you to install recommended extensions (Python and Jupyter) — click **Install**. If no prompt appears, continue to the next step.
+
+![Directory Path](images/vscode-install-recommended-extensions.png)
+
+![Directory Path](images/vscode-workspace-recommendations-python-jupyter.png)
 
 **Open the first notebook** from the Explorer panel: `01_Environment_Check.ipynb`
 
