@@ -38,7 +38,7 @@
 - Light intro to tracing — the OpenAI dashboard
 - Practice exercises
 
-### 04: Building Tools for Agents (`04_Building_Tools_For_Agents.ipynb`)
+### 04: Building Tools for Agents (`04_Building_Tools.ipynb`)
 - Turning any Python function into a tool with `@function_tool`
 - Automatic schema generation — no manual JSON
 - How the agent decides which tool to call
@@ -47,7 +47,7 @@
 - Students finish the lesson with an agent they actually built — this same assistant carries forward into Lesson 05
 - Practice exercises
 
-### 05: Writing Effective Agent Instructions (`05_Writing_Agent_Instructions.ipynb`)
+### 05: Writing Effective Agent Instructions (`05_Agent_Instructions.ipynb`)
 - Take the multi-tool assistant from Lesson 04 and make it behave better
 - Writing durable system instructions
 - Telling agents when to ask clarifying questions
@@ -83,7 +83,7 @@
 
 > These reliability patterns apply to every agent you'll build. The examples here are simple by design — you'll see why they matter when tools get more complex later in this week.
 
-### 08: Error Handling & Recovery (`08_Error_Handling_And_Recovery.ipynb`)
+### 08: Error Handling & Recovery (`08_Error_Handling.ipynb`)
 - What happens when a tool raises an exception
 - try/except patterns inside `@function_tool`
 - API errors, rate limits, and network timeouts
@@ -94,7 +94,7 @@
 - Note: when something fails, tracing shows you exactly where — covered in Lesson 25
 - Practice exercises
 
-### 09: Testing & Evaluating Agents (`09_Testing_And_Evaluating_Agents.ipynb`)
+### 09: Testing & Evaluating Agents (`09_Testing_Agents.ipynb`)
 - Why demos lie — building agents vs knowing they work
 - Defining success criteria
 - Building a golden test set — saving and versioning over time
@@ -221,7 +221,7 @@
 - Parallel vs blocking execution modes
 - Practice exercises
 
-### 23: Prompt Injection & Tool Safety (`23_Prompt_Injection_And_Tool_Safety.ipynb`)
+### 23: Prompt Injection & Tool Safety (`23_Prompt_Injection.ipynb`)
 - What prompt injection is and why agents are uniquely vulnerable
 - Injection via web pages, documents, and MCP tool output (MCP is introduced in Lesson 27 — forward reference here)
 - Separating system instructions from retrieved data
@@ -237,7 +237,7 @@
 - Approval workflow pattern
 - Practice exercises
 
-### 25: Tracing & Observability (`25_Tracing_And_Observability.ipynb`)
+### 25: Tracing & Observability (`25_Tracing.ipynb`)
 - What tracing captures automatically
 - Reading traces in the OpenAI dashboard
 - Inspecting tool calls, handoffs, and decisions
@@ -267,7 +267,7 @@
 - Agent discovers tools automatically — no custom integration code
 - Practice exercises
 
-### 28: Real-World MCP Servers (`28_Real_World_MCP_Servers.ipynb`)
+### 28: Real-World MCP Servers (`28_MCP_Servers.ipynb`)
 - Filesystem MCP server
 - Web fetch MCP server
 - Combining multiple MCP servers in one agent
@@ -285,7 +285,7 @@
 - `REASONING_MODEL` for decision-making
 - Exercise: swap in a different MCP server
 
-### 30: Project Structure & CLI (`30_Project_Structure_And_CLI.ipynb`)
+### 30: Project Structure & CLI (`30_Project_Structure.ipynb`)
 - What changes when leaving notebooks
 - Separating config, tools, and agent logic into modules
 - A reusable project structure for agent apps
@@ -304,7 +304,7 @@
 - Avoiding unnecessary complexity
 - Course wrap-up and suggested next projects
 
-### 32: Deploying Agents with Gradio (`32_Deploying_With_Gradio.ipynb`)
+### 32: Deploying Agents with Gradio (`32_Gradio_Deployment.ipynb`)
 - What Gradio is and why it's the standard for AI demos
 - Wrapping an agent in a Gradio chat interface
 - Streaming responses — showing output as it arrives
