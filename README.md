@@ -11,7 +11,6 @@
 | Tool | Purpose |
 |------|---------|
 | **Python 3.11+** | The language the course runs on |
-| **venv** | Isolates course libraries from your system Python |
 | **Course Libraries** | OpenAI Agents SDK, Pydantic, ChromaDB, Gradio, and more — all installed from `requirements.txt` |
 | **VS Code** | Where you'll open notebooks and run agent code |
 | **VS Code Extensions** | Python + Jupyter support for running notebooks |
