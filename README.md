@@ -117,12 +117,15 @@ When extracted, you should see a folder named `openai-agents`.
 
 Check whether Python is already installed and which version:
 
+**🪟 Windows:**
+```powershell
+python --version
+```
+
+**🍎 macOS & 🐧 Linux:**
 ```bash
 python3 --version
 ```
-
-> [!TIP]
-> On Windows, use `python --version` instead. If neither works, Python isn't installed.
 
 If you see Python 3.11 or higher, **skip to Step 4**.
 
@@ -164,6 +167,12 @@ sudo pacman -S python                          # Arch (usually 3.11+ already)
 
 Close your terminal completely and reopen it before running this — Python may not be on PATH otherwise.
 
+**🪟 Windows:**
+```powershell
+python --version
+```
+
+**🍎 macOS & 🐧 Linux:**
 ```bash
 python3 --version
 ```
