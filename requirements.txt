@@ -1,0 +1,25 @@
+# Course dependencies — install with:
+#   pip install -r requirements.txt
+#
+# Requires Python 3.11+.
+
+# Notebook kernel for VS Code / JupyterLab
+ipykernel
+ipywidgets               # progress bars (required by chromadb)
+
+# Core SDK
+openai-agents>=0.13.0,<1.0
+openai>=1.0.0,<3.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+chromadb>=0.4.0
+gradio>=6.0
+
+# Module 8: MCP runner
+uv>=0.2.0
+
+# Module 9: API wrapper
+fastapi>=0.110.0
+uvicorn>=0.29.0

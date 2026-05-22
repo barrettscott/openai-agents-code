@@ -10,8 +10,9 @@
 
 | Tool | Purpose |
 |------|---------|
-| **Conda** | Manages Python and course libraries |
-| **Course Libraries** | OpenAI Agents SDK, Pydantic, ChromaDB, Gradio, and more — all installed from `environment.yml` |
+| **Python 3.11+** | The language the course runs on |
+| **venv** | Isolates course libraries from your system Python |
+| **Course Libraries** | OpenAI Agents SDK, Pydantic, ChromaDB, Gradio, and more — all installed from `requirements.txt` |
 | **VS Code** | Where you'll open notebooks and run agent code |
 | **VS Code Extensions** | Python + Jupyter support for running notebooks |
 
@@ -26,8 +27,8 @@
 
 - [ ] Step 1: Open your terminal
 - [ ] Step 2: Download course materials
-- [ ] Step 3: Install Conda
-- [ ] Step 4: Create your course environment
+- [ ] Step 3: Verify Python 3.11 or higher
+- [ ] Step 4: Create your virtual environment and install packages
 - [ ] Step 5: Install VS Code
 - [ ] Step 6: Open the course in VS Code
 
@@ -113,49 +114,39 @@ When extracted, you should see a folder named `openai-agents`.
 
 ---
 
-## 🐍 Step 3: Install Conda
+## 🐍 Step 3: Verify Python 3.11 or Higher
 
-Conda installs Python and manages all the libraries we'll need for the course.
-
-**Check if Conda is already installed:**
+Check whether Python is already installed and which version:
 
 ```bash
-conda --version
+python3 --version
 ```
 
 > [!TIP]
-> If you see something like `conda 23.1.0`, **skip to Step 4** — you're already set.
+> On Windows, use `python --version` instead. If neither works, Python isn't installed.
 
-### If Conda is NOT installed:
+If you see Python 3.11 or higher, **skip to Step 4**.
+
+### If Python is NOT installed (or too old):
 
 <details>
 <summary><b>🪟 Windows</b></summary>
 
-1. Go to the [Miniconda Windows installer page](https://www.anaconda.com/docs/getting-started/miniconda/install/windows-gui-install) and download the **Windows 64-Bit Graphical Installer**
-2. Run the installer. When asked who to install for, choose **"Just Me"** (the default)
-3. Accept the defaults until **Advanced Installation Options**, then check this box:
-   - ☑️ **"Add Miniconda3 to my PATH environment variable"**
-
-   > We're checking this so `conda` works directly in PowerShell throughout the course. The installer labels it "not recommended" — we're doing it on purpose for a simpler workflow.
-
-   Leave this unchecked:
-   - ☐ "Register Miniconda3 as my default Python 3.x"
-
-4. Complete installation, close PowerShell completely and reopen it
+1. Go to [python.org/downloads](https://www.python.org/downloads/)
+2. Download the latest Python 3.11 (or higher) Windows installer
+3. Run the installer and **check "Add Python to PATH"** at the bottom of the first screen
+4. Close PowerShell completely and reopen it
 
 </details>
 
 <details>
 <summary><b>🍎 macOS</b></summary>
 
-1. Go to the [Miniconda download page](https://docs.conda.io/en/latest/miniconda.html)
-2. **Apple Silicon (M1/M2/M3/M4):** Download the macOS Apple Silicon (arm64) `.pkg` installer
-3. **Intel Macs:** Use this direct link: [Miniconda3-latest-MacOSX-x86_64.pkg](https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.pkg)
+Easiest path: install from [python.org/downloads](https://www.python.org/downloads/) — the universal2 macOS installer works on both Intel and Apple Silicon Macs.
 
-   > *Not sure which Mac you have? Click Apple menu → About This Mac and look for Chip or Processor.*
+If you already use Homebrew: `brew install python@3.11`
 
-4. Double-click the downloaded file and follow the installation steps
-5. Close Terminal completely and reopen it
+After installation, close Terminal and reopen it.
 
 </details>
 
@@ -163,30 +154,26 @@ conda --version
 <summary><b>🐧 Linux</b></summary>
 
 ```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
+sudo apt install python3.11 python3.11-venv   # Ubuntu / Debian
+sudo dnf install python3.11                   # Fedora
+sudo pacman -S python                          # Arch (usually 3.11+ already)
 ```
-
-- Accept the license and choose install location (default is fine)
-- When asked "Do you wish the installer to initialize Miniconda3?", type `yes`
-- Close terminal and reopen it
 
 </details>
 
-### ✅ Verify Installation (Everyone)
+### ✅ Verify Installation
 
-> [!WARNING]
-> Close your terminal completely and reopen it before running this — conda won't be found otherwise.
+Close your terminal completely and reopen it before running this — Python may not be on PATH otherwise.
 
 ```bash
-conda --version
+python3 --version
 ```
 
-If you see a version number (e.g., `conda 24.1.2`), you're ready for Step 4.
+If you see `Python 3.11.x` (or higher), you're ready for Step 4.
 
 ---
 
-## 🌿 Step 4: Create Your Course Environment
+## 🌿 Step 4: Create Your Virtual Environment
 
 **Navigate to the course folder:**
 
@@ -200,7 +187,7 @@ cd "$env:USERPROFILE\courses\openai-agents"
 cd ~/courses/openai-agents
 ```
 
-**Confirm you can see the environment file:**
+**Confirm you can see the requirements file:**
 
 **🪟 Windows:**
 ```powershell
@@ -212,42 +199,60 @@ dir
 ls
 ```
 
-You should see `environment.yml` in the output. If you don't, go back and make sure you navigated to the correct folder.
+You should see `requirements.txt` in the output. If you don't, go back and make sure you navigated to the correct folder.
 
-**Create the environment (5–15 minutes depending on internet speed):**
+**Create the virtual environment:**
 
 ```bash
-conda env create -f environment.yml
+python3 -m venv .venv
+```
+
+This creates a `.venv` folder inside the course directory. It isolates the course's packages from the rest of your system, so they won't conflict with anything else you have installed.
+
+**Activate the virtual environment:**
+
+**🪟 Windows (PowerShell):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+> [!NOTE]
+> If PowerShell blocks this with an "execution policy" error, run this once: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, then try the activate command again.
+
+**🍎 macOS & 🐧 Linux:**
+```bash
+source .venv/bin/activate
+```
+
+Your prompt should now start with `(.venv)`.
+
+**Install course packages (2–5 minutes):**
+
+```bash
+pip install -r requirements.txt
 ```
 
 **What's being installed:**
 
 | Package | Purpose |
 |---------|---------|
-| Python 3.11 | The language the course runs on |
 | OpenAI Agents SDK | Core library for every notebook |
 | python-dotenv | Secure API key loading |
-| ChromaDB | Vector memory (Week 4) |
-| Gradio | Chat UI deployment (Week 5) |
+| ChromaDB | Vector memory (Module 6) |
+| Gradio | Chat UI deployment (Module 9) |
+| FastAPI + uvicorn | API wrapper (Module 9) |
+| ipykernel | Lets VS Code see this environment |
 
 > [!TIP]
-> If this fails, run `conda clean --all` then try again.
-
-**Verify the environment was created:**
-
-```bash
-conda env list
-```
-
-You should see `openai-agents` in the list.
+> If `pip install` fails, see Troubleshooting at the bottom of this page.
 
 **Register the kernel for VS Code:**
 
 ```bash
-conda run -n openai-agents python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
+python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
 ```
 
-*This registers the environment as a Jupyter kernel so VS Code can find it in the notebook kernel picker.*
+This registers the virtual environment as a Jupyter kernel so VS Code can find it in the notebook kernel picker as `openai-agents`.
 
 ---
 
@@ -303,28 +308,34 @@ You should see all the course notebooks and files in the Explorer panel on the l
 <summary><b>"Command not found" / "not recognized" errors</b></summary>
 
 - Close terminal/PowerShell completely and reopen it
-- Make sure conda is initialized: run `conda init zsh` (macOS) or `conda init bash` (Linux) or `conda init powershell` (Windows), then close and reopen terminal
+- Make sure Python is on PATH — re-run the installer with "Add Python to PATH" checked (Windows)
 - Restart your computer
 
-> **Note:** For notebooks, selecting the `openai-agents` kernel in VS Code is what matters. You only need `conda activate openai-agents` when running course commands directly in a terminal.
+> **Note:** For notebooks, selecting the `openai-agents` kernel in VS Code is what matters. You only need to activate the virtual environment when running course commands directly in a terminal.
 
 </details>
 
 <details>
-<summary><b>Environment creation failed</b></summary>
+<summary><b>venv activation fails on Windows (execution policy error)</b></summary>
 
-- Run `conda clean --all` then try again
-- If the environment already exists: `conda env remove -n openai-agents -y` then recreate it
+PowerShell sometimes blocks scripts by default. Run this once to allow signed local scripts:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+Then retry `.\.venv\Scripts\Activate.ps1`.
+
+</details>
+
+<details>
+<summary><b><code>pip install</code> fails</b></summary>
+
+- Make sure you've activated the virtual environment first — your prompt should start with `(.venv)`
+- Upgrade pip itself: `python -m pip install --upgrade pip`
+- Clear pip cache if downloads are corrupted: `pip cache purge`
+- Network/proxy issues: try again on a different connection
 - **🪟 Windows:** Disable antivirus temporarily if installation hangs
-
-</details>
-
-<details>
-<summary><b>Conda activate doesn't work</b></summary>
-
-- Close terminal and reopen it
-- Run `conda init zsh` (macOS) or `conda init bash` (Linux) or `conda init powershell` (Windows)
-- Close and reopen terminal, then retry
 
 </details>
 
@@ -333,7 +344,8 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 - Close VS Code completely, reopen it, and try the kernel picker again — newly created environments sometimes need a moment to appear
 - Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux), type **"Reload Window"**, and press Enter
-- Try **Select Kernel → Python Environments** and look for `openai-agents` in the list
+- Confirm the kernel is registered: run `jupyter kernelspec list` from the activated venv — you should see `openai-agents` in the output
+- If missing, re-run: `python -m ipykernel install --user --name openai-agents --display-name "openai-agents"`
 
 </details>
 
@@ -349,8 +361,8 @@ You should see all the course notebooks and files in the Explorer panel on the l
 <details>
 <summary><b>Import errors for libraries</b></summary>
 
-- Make sure `openai-agents` is selected as the kernel (not `base` or another environment)
-- Open VS Code's integrated terminal, navigate to the course folder, and run: `conda env update -n openai-agents -f environment.yml`
+- Make sure `openai-agents` is selected as the kernel (not the system Python or another environment)
+- Open VS Code's integrated terminal, navigate to the course folder, activate the venv, and run: `pip install -r requirements.txt`
 - Click the kernel indicator → **Restart** after updating
 
 </details>
@@ -363,7 +375,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 - **Path issues:** Your files are in `C:\Users\YourName\courses\openai-agents`
 
 **🐧 Linux:**
-- **Permission errors:** Avoid using `sudo` with conda commands
+- **`python3 -m venv` fails:** install the venv module — `sudo apt install python3.11-venv` (Ubuntu/Debian)
 - **Missing build tools:** install via your distro's package manager — e.g. `sudo apt install build-essential` (Ubuntu/Debian), `sudo dnf groupinstall "Development Tools"` (Fedora), `sudo pacman -S base-devel` (Arch)
 - **`unzip` or `wget` not found:** install via your distro's package manager — e.g. `sudo apt install unzip wget` (Ubuntu/Debian)
 
