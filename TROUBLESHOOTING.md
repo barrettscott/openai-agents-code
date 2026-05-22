@@ -2,7 +2,7 @@
 
 Common issues and fixes for the **AI Agents with Python & the OpenAI Agents SDK** course.
 
-> **Setup issues?** See the [Setup Guide](README.md) troubleshooting section instead — it covers environment creation, conda, and VS Code kernel selection.
+> **Setup issues?** See the [Setup Guide](README.md) troubleshooting section instead — it covers environment creation, venv, and VS Code kernel selection.
 
 ---
 
@@ -54,10 +54,12 @@ These apply across all lessons. Check here first before looking up your specific
 
 ### Wrong kernel or kernel not showing up
 
-The most common issue in the course. If `openai-agents` doesn't appear in the kernel list at all, the kernel was never registered — run this in your terminal:
+The most common issue in the course. If `openai-agents` doesn't appear in the kernel list at all, the kernel was never registered — activate the venv and run this in your terminal:
 
 ```bash
-conda run -n openai-agents python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
+source .venv/bin/activate                                # Mac/Linux
+# .\.venv\Scripts\Activate.ps1                           # Windows
+python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
 ```
 
 Then reload VS Code (`Cmd+Shift+P` on Mac, `Ctrl+Shift+P` on Windows/Linux → **Reload Window**).
@@ -72,10 +74,12 @@ If `openai-agents` is in the list but not selected:
 
 ### Packages missing or out of date
 
-Open the VS Code integrated terminal and run:
+Open the VS Code integrated terminal, activate the venv, and run:
 
 ```bash
-conda env update -n openai-agents -f environment.yml
+source .venv/bin/activate                                # Mac/Linux
+# .\.venv\Scripts\Activate.ps1                           # Windows
+pip install -r requirements.txt
 ```
 
 Then restart the kernel (click the kernel indicator → **Restart**).
@@ -108,10 +112,12 @@ Then restart the kernel (click the kernel indicator → **Restart**).
 
 ### ImportError: cannot import name X from agents
 
-The SDK version may be out of date. Run:
+The SDK version may be out of date. Activate the venv and run:
 
 ```bash
-conda env update -n openai-agents -f environment.yml
+source .venv/bin/activate                                # Mac/Linux
+# .\.venv\Scripts\Activate.ps1                           # Windows
+pip install -U openai-agents
 ```
 
 Then restart the kernel.
@@ -149,15 +155,15 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 01: Environment Check
 
 **Wrong kernel or kernel not showing up?**
-- If `openai-agents` doesn't appear in the kernel list, run this in your terminal:
+- If `openai-agents` doesn't appear in the kernel list, activate the venv and run this in your terminal:
   ```
-  conda run -n openai-agents python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
+  python -m ipykernel install --user --name openai-agents --display-name "openai-agents"
   ```
 - Reload VS Code (`Cmd+Shift+P` on Mac, `Ctrl+Shift+P` on Windows/Linux → **Reload Window**)
 - Click the kernel indicator and select `openai-agents`
 
 **Packages missing?**
-- Run: `conda env update -n openai-agents -f environment.yml`
+- Activate the venv, then run: `pip install -r requirements.txt`
 - Restart the kernel
 
 **Still having issues?**
@@ -925,7 +931,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 - In scripts, never use `await` at the top level — that only works in JupyterLab
 
 **`ModuleNotFoundError: No module named 'agents'`?**
-- Confirm your virtual environment is active: `conda activate openai-agents`
+- Confirm your virtual environment is active: `source .venv/bin/activate` (Mac/Linux) or `.\.venv\Scripts\Activate.ps1` (Windows)
 - Run `pip install openai-agents` inside the active environment
 
 **`ImportError` when importing from `config` or `tools`?**

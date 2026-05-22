@@ -114,7 +114,7 @@ Parameter breakdown:
 
 ## How it connects to adjacent notebooks
 
-**Builds on M01A (Setup & Environment):** M01A installed the `openai-agents` package and `python-dotenv`, created the conda environment, and introduced the `MODEL = "gpt-5-mini"` constant. On camera, you can say: "In the last notebook we set up our Python environment and installed the packages. Now we're going to get the API key that lets us actually talk to OpenAI."
+**Builds on M01A (Setup & Environment):** M01A installed the `openai-agents` package and `python-dotenv`, created the venv, and introduced the `MODEL = "gpt-5-mini"` constant. On camera, you can say: "In the last notebook we set up our Python environment and installed the packages. Now we're going to get the API key that lets us actually talk to OpenAI."
 
 **Leads into M02A (How Agents Work):** M02A is where students learn what `Agent`, `Runner`, and `result.final_output` actually do in detail, plus how `instructions` shape behavior and a light intro to tracing. On camera at the end of M01B, say: "We just made our first agent call, but we skipped over what `Agent`, `Runner`, and `result.final_output` actually mean. That's exactly what the next notebook covers — we'll take this apart piece by piece." The `.env` loading pattern introduced here (`load_dotenv(dotenv_path=Path("..") / ".env", override=True)`) will appear at the top of every notebook going forward — worth flagging so students expect it.
 

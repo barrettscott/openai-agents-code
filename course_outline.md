@@ -22,7 +22,7 @@
 
 ### 01: Environment Check (`01_Environment_Check.ipynb`)
 - Install openai-agents, python-dotenv
-- Create conda environment, environment check pattern
+- Create venv from `requirements.txt`, environment check pattern
 - `MODEL = "gpt-5-mini"`, `REASONING_MODEL = "gpt-5"`
 
 ### 02: OpenAI Setup (`02_OpenAI_Setup.ipynb`)
