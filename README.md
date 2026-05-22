@@ -225,7 +225,11 @@ This creates a `.venv` folder inside the course directory. It isolates the cours
 ```
 
 > [!NOTE]
-> If PowerShell blocks this with an "execution policy" error, run this once: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, then try the activate command again.
+> If PowerShell blocks this with an "execution policy" error, run this once, then retry the activate command:
+>
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
 
 **🍎 macOS & 🐧 Linux:**
 ```bash
