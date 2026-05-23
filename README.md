@@ -115,7 +115,7 @@ When extracted, you should see a folder named `openai-agents`.
 
 ## 🐍 Step 3: Verify Python 3.11 or Higher
 
-Check whether Python is already installed and which version:
+Check whether you have Python 3.11 or higher. Most students will need to install or upgrade.
 
 **🪟 Windows:**
 ```powershell
