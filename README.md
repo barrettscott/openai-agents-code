@@ -181,7 +181,7 @@ If you see `Python 3.11.x` (or higher), you're ready for Step 4.
 
 ---
 
-## 🌿 Step 4: Create Your Virtual Environment
+## 🌿 Step 4: Create Your Virtual Environment and Install Packages
 
 **Navigate to the course folder:**
 
@@ -399,7 +399,6 @@ Then retry `.\.venv\Scripts\Activate.ps1`.
 
 **🍎 macOS:**
 - **Xcode issues:** Run `xcode-select --install` if you get compiler errors
-- **Chip confusion:** Use Activity Monitor to check if you have Intel or Apple Silicon
 
 </details>
 
