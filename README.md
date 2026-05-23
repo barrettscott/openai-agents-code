@@ -211,6 +211,12 @@ You should see `requirements.txt` in the output. If you don't, go back and make 
 
 **Create the virtual environment:**
 
+**🪟 Windows:**
+```powershell
+python -m venv .venv
+```
+
+**🍎 macOS & 🐧 Linux:**
 ```bash
 python3 -m venv .venv
 ```
