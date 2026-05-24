@@ -294,6 +294,8 @@ Default to one clear sentence explaining the core insight. Bullets are acceptabl
 
 **The Key Takeaway quality test:** A Key Takeaway cell is one sentence the instructor would highlight on screen and read aloud as a satisfying takeaway. Restatement of the demo, procedural advice, and setup-flavored sentences fail this test — rewrite as a quotable principle or cut the cell. If the demo doesn't yield a quotable principle, the cell shouldn't exist. The narrator typically pauses 3–5 seconds while viewers read the on-screen text rather than reading it aloud verbatim.
 
+**Key Takeaway pair structure:** The per-demo `### 💡 Key Takeaway` (singular) and end-of-lesson `## 🎯 Key Takeaways` (plural) form a deliberate pair. Each demo's one-sentence punchline should also be surfaced in the consolidated end-of-lesson section — either as a section header (when it names a value-prop) or as a bullet under the relevant sub-theme. Singular/plural carries the relationship: each demo gives *one* takeaway; the end-of-lesson section consolidates *all* of them.
+
 **When to cut the explanation cell:** Cut it when the insight is already visible in the code above and will be spoken on camera. Keep it only when the design decision is non-obvious or when naming the principle helps students apply it elsewhere.
 
 ---
