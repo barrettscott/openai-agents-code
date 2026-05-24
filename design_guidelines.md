@@ -28,6 +28,8 @@ Below this section, rules are organized by topic. Formatting preferences (emoji 
 - Short intro paragraph — 2–3 sentences that name the topic, state the upside of doing it well, and state the cost of doing it badly. This is the on-camera framing the instructor reads at the start of the lesson; the Part headers that follow function as the lesson's TOC, so no separate Topics list is needed.
 - `---` divider immediately after the opening section
 
+**Bullets in opening framing — when allowed:** When the framing introduces 2–3 discrete items (e.g., the core APIs the lesson teaches, the three things a pattern requires), use a bullet list. Each item gets a visual anchor, and the narration cadence (brief pause between bullets) gives viewers time to register each one. This is distinct from the removed Topics-list pattern, which was a 6+ bullet preview of what the lesson would cover and went unnarrated. Bullets here ARE the framing the instructor reads — not a TOC.
+
 Example:
 
 ```
