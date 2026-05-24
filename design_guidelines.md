@@ -288,11 +288,11 @@ Long notebooks often turn into long videos that weaken pacing and lose student a
 
 **Title headers with separators:** Colons OK: `### Challenge 1: Handoff Routing`
 
-**Technique explanations:** Use `### 💡 [Short Descriptor]` for explaining the logic behind agent design decisions. The default descriptor is "Key Idea" — use this for demos that show something working. When the demo is intentionally showing failure (e.g., free-form text breaking downstream code), use a descriptor that matches the demo's intent: `### 💡 Why This Breaks`, `### 💡 Why This Fails`, or similar. The 💡 emoji is the consistency anchor; the descriptor matches what the demo actually shows.
+**Technique explanations:** Use `### 💡 [Short Descriptor]` for explaining the logic behind agent design decisions. The default descriptor is "Key Takeaway" — use this for demos that show something working. When the demo is intentionally showing failure (e.g., free-form text breaking downstream code), use a descriptor that matches the demo's intent: `### 💡 Why This Breaks`, `### 💡 Why This Fails`, or similar. The 💡 emoji is the consistency anchor; the descriptor matches what the demo actually shows.
 
 Default to one clear sentence explaining the core insight. Bullets are acceptable when the insight has 3 or fewer parallel, discrete items that benefit from visual separation on camera — avoid bullets when the idea flows naturally as prose.
 
-**The Key Idea quality test:** A Key Idea cell is one sentence the instructor would highlight on screen and read aloud as a satisfying takeaway. Restatement of the demo, procedural advice, and setup-flavored sentences fail this test — rewrite as a quotable principle or cut the cell. If the demo doesn't yield a quotable principle, the cell shouldn't exist. The narrator typically pauses 3–5 seconds while viewers read the on-screen text rather than reading it aloud verbatim.
+**The Key Takeaway quality test:** A Key Takeaway cell is one sentence the instructor would highlight on screen and read aloud as a satisfying takeaway. Restatement of the demo, procedural advice, and setup-flavored sentences fail this test — rewrite as a quotable principle or cut the cell. If the demo doesn't yield a quotable principle, the cell shouldn't exist. The narrator typically pauses 3–5 seconds while viewers read the on-screen text rather than reading it aloud verbatim.
 
 **When to cut the explanation cell:** Cut it when the insight is already visible in the code above and will be spoken on camera. Keep it only when the design decision is non-obvious or when naming the principle helps students apply it elsewhere.
 
