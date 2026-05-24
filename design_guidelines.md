@@ -25,8 +25,7 @@ Below this section, rules are organized by topic. Formatting preferences (emoji 
 **Opening Template:** Every notebook starts with:
 - `# [Title]` (single-hash h1, title only — no lesson number in the title)
 - `*Notebook [two-digit number]*` on its own line below the title (e.g., `*Notebook 04*`)
-- Short intro paragraph (2–3 sentences max)
-- **Topics:** bullet list — use this consistently across all notebooks. When a notebook intentionally narrows from a larger toolset or topic area, a scope-setting bullet is acceptable (e.g., "This notebook focuses on structured output and validation"). Rephrase as a topic rather than meta-commentary where possible.
+- Short intro paragraph — 2–3 sentences that name the topic, state the upside of doing it well, and state the cost of doing it badly. This is the on-camera framing the instructor reads at the start of the lesson; the Part headers that follow function as the lesson's TOC, so no separate Topics list is needed.
 - `---` divider immediately after the opening section
 
 Example:
@@ -37,10 +36,6 @@ Example:
 *Notebook 04*
 
 In this notebook, we'll turn Python functions into tools your agent can call...
-
-**Topics:**
-- Turning any Python function into a tool with `@function_tool`
-- ...
 
 ---
 ```
@@ -250,9 +245,8 @@ Design exercise cells must still follow standard cell formatting: comment header
   Await it to get the result.
   ```
 
-- **Bullet list spacing:** Always add a blank line between bullet items in markdown cells. VS Code notebook rendering compresses bullet lists without blank lines, which looks cramped on camera. This applies to all bullet lists — Topics, Key Takeaways, and any other markdown cell with a list. Exception: Troubleshooting sections keep tight spacing (no blank lines between bullets) because they are dense reference content, not presented on camera.
+- **Bullet list spacing:** Always add a blank line between bullet items in markdown cells. VS Code notebook rendering compresses bullet lists without blank lines, which looks cramped on camera. This applies to Key Takeaways and any other markdown cell with a list. Exception: Troubleshooting sections keep tight spacing (no blank lines between bullets) because they are dense reference content, not presented on camera.
 
-- **Spacing before Topics header:** In the opening cell, add two `<br>` tags on separate lines between the intro paragraph and the **Topics:** header to create visual separation. The `<br>` tags must immediately follow the last line of text — no blank line before them, or VS Code renders them as literal text.
 
 - **Key Takeaways formatting:** Each bold sub-header group in Key Takeaways gets a blank line before its bullets and two `<br>` tags after the last bullet in the group, before the next bold sub-header. The `<br>` tags must immediately follow the last bullet — no blank line before them.
 
