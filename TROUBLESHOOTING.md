@@ -10,8 +10,8 @@ Common issues and fixes for the **AI Agents with Python & the OpenAI Agents SDK*
 
 - [Common Issues](#common-issues)
 - [By Notebook](#by-notebook)
-  - [Lesson 01: Environment Check](#lesson-01-environment-check)
-  - [Lesson 02: OpenAI Setup](#lesson-02-openai-setup)
+  - [Setup: Environment Check](#setup-environment-check)
+  - [Setup: OpenAI](#setup-openai)
   - [Lesson 01: How Agents Work](#lesson-01-how-agents-work)
   - [Lesson 02: Building Tools for Agents](#lesson-02-building-tools-for-agents)
   - [Lesson 03: Writing Agent Instructions](#lesson-03-writing-agent-instructions)
@@ -152,7 +152,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 ---
 
-### Lesson 01: Environment Check
+### Setup: Environment Check
 
 **Wrong kernel or kernel not showing up?**
 - If `openai-agents` doesn't appear in the kernel list, activate the venv and run this in your terminal:
@@ -173,7 +173,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 ---
 
-### Lesson 02: OpenAI Setup
+### Setup: OpenAI
 
 **API key not found or authentication error?**
 - Check you copied the entire key (starts with `sk-`)

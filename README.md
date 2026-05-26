@@ -315,8 +315,8 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 ## 📍 What's Next
 
-1. **Notebook 01** — Verify your Python environment and packages
-2. **Notebook 02** — Connect to OpenAI, set up your API key, and run your first agent
+1. **[Setup 1: Environment Check](Z_Setup/Setup_1_Environment_Check.ipynb)** — verify your Python environment and packages
+2. **[Setup 2: OpenAI Setup](Z_Setup/Setup_2_OpenAI.ipynb)** — connect to OpenAI, set up your API key, and run your first agent
 
 ---
 
