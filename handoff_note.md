@@ -49,7 +49,7 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 - Watch-first course restructure: move setup section to END of Udemy curriculum
 - Add "How to take this course" lecture introducing the two-pass model
 - README "What's Next" section may need a rewrite tied to that restructure
-- **One pending spawned task:** NB27 (was old NB29 — Capstone 4 MCP Assistant) Exercise 1 code cell has duplicate Option A/B (both point to `@modelcontextprotocol/server-memory`). Replace one with a different MCP server (Git, SQLite, etc.) for a genuine three-option exercise. Code cell touch required.
+- ~~NB27 duplicate Option A/B fix~~ — done in `a62113c` (Option B is now Git server)
 
 ### Important rules
 
