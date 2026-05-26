@@ -305,7 +305,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 ![Directory Path](images/vscode-workspace-recommendations-python-jupyter.png)
 
-**Open the first notebook** from the Explorer panel: `01_Environment_Check.ipynb`
+**Open the first setup notebook** from the Explorer panel: `Z_Setup/Setup_Notebook_1_Environment_Check.ipynb`
 
 **Select the kernel:** The kernel indicator in the top-right should show **openai-agents**.
 
