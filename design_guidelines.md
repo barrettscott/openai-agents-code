@@ -24,7 +24,7 @@ Below this section, rules are organized by topic. Formatting preferences (emoji 
 
 **Opening Template:** Every notebook starts with:
 - `# [Title]` (single-hash h1, title only — no lesson number in the title)
-- `*Notebook [two-digit number]*` on its own line below the title (e.g., `*Notebook 04*`)
+- `*Notebook [two-digit number]*` on its own line below the title (e.g., `*Notebook 02*`)
 - Short intro paragraph — 2–3 sentences that name the topic, state the upside of doing it well, and state the cost of doing it badly. This is the on-camera framing the instructor reads at the start of the lesson; the Part headers that follow function as the lesson's TOC, so no separate Topics list is needed.
 - `---` divider immediately after the opening section
 
@@ -35,7 +35,7 @@ Example:
 ```
 # Building Tools for Agents
 
-*Notebook 04*
+*Notebook 02*
 
 In this notebook, we'll turn Python functions into tools your agent can call...
 
@@ -70,7 +70,7 @@ The standard end-of-notebook section order is:
 6. `---` divider
 7. `##### 🔧 [Troubleshooting Guide](https://github.com/barrettscott/openai-agents/blob/main/TROUBLESHOOTING.md#lesson-XX-title)` (link-only, no section header)
 8. `---` divider
-9. Course Complete cell (only in the final notebook — Lesson 32)
+9. Course Complete cell (only in the final notebook — Lesson 30)
 10. `---` divider
 
 **Lesson 01 exception:** Lesson 01 (Environment Check) omits Practice Exercises entirely (see Practice Exercises section). Its end-of-notebook order is Key Takeaways → Next Step → Troubleshooting.
@@ -79,10 +79,10 @@ The standard end-of-notebook section order is:
 
 **When to use Next Step vs Course Complete:**
 - Every notebook except the final one uses a standard Next Step cell pointing to the next notebook by ID and title
-- Only the final notebook in the course (Lesson 32) replaces Next Step with a Course Complete cell — this is the only case where Next Step is omitted entirely
+- Only the final notebook in the course (Lesson 30) replaces Next Step with a Course Complete cell — this is the only case where Next Step is omitted entirely
 - Week boundaries do not require special completion cells — students see week structure through the Udemy section interface; internal Week Complete cells would be redundant
 
-**Example:** Lesson 18 is the last notebook in Week 3 but points forward to Lesson 19 — it uses a standard Next Step cell, not any form of completion cell. Lesson 32 is the last notebook in the course — it correctly uses Course Complete in place of Next Step.
+**Example:** Lesson 16 is the last notebook in Week 3 but points forward to Lesson 17 — it uses a standard Next Step cell, not any form of completion cell. Lesson 30 is the last notebook in the course — it correctly uses Course Complete in place of Next Step.
 
 **Next Step cell format:** The lesson title goes on its own bold line followed by two spaces (forcing a line break). A blank line separates it from the description sentence.
 
@@ -91,18 +91,18 @@ Example:
 ```
 ## 📍 Next Step
 
-**Notebook 06: Pydantic Basics**  
+**Notebook 04: Pydantic Basics**  
 
-Learn how to define typed models with Pydantic — the foundation for structured agent output in Lesson 07.
+Learn how to define typed models with Pydantic — the foundation for structured agent output in Lesson 05.
 ```
 
-**Capstone notebooks:** Capstone Next Step cells may use the short identifier form (`**Notebook 13: Capstone #1**`) without appending the full subtitle. The `#N` identifier is already self-describing in a capstone context. Adding the full subtitle to the bold line is acceptable but not required.
+**Capstone notebooks:** Capstone Next Step cells may use the short identifier form (`**Notebook 11: Capstone #1**`) without appending the full subtitle. The `#N` identifier is already self-describing in a capstone context. Adding the full subtitle to the bold line is acceptable but not required.
 
 ---
 
 ## Template and Reference Notebooks
 
-Some notebooks use Python string templates printed to output rather than runnable agent code. These are called template or reference notebooks (Lesson 30 — Project Structure & CLI — is the primary example, where students see reusable patterns for `config.py`, `tools.py`, and agent module structure).
+Some notebooks use Python string templates printed to output rather than runnable agent code. These are called template or reference notebooks (Lesson 28 — Project Structure & CLI — is the primary example, where students see reusable patterns for `config.py`, `tools.py`, and agent module structure).
 
 **For template notebooks:**
 - Standard runtime checks (Runner.run() spacing, Agent() constructor rules, import hygiene) apply only to the runnable setup cell and any directly executable code cells
@@ -203,7 +203,7 @@ When there are multiple exercises:
 
 **Design exercises for concept notebooks:** Concept notebooks and decision-framework notebooks — notebooks whose primary content is guidance, decision trees, or reference tables rather than runnable demos — may use structured design exercises instead of executable code. A design exercise is a code cell containing only comments that ask the student to reason through a decision or plan a project architecture in writing. No runnable code, no expected output.
 
-This is an accepted pattern, not a workaround. For a notebook like Lesson 31 (Architecture Decisions), a design exercise in comments achieves the goal of active application more honestly than forcing a runnable code exercise onto content that is inherently about judgment rather than execution.
+This is an accepted pattern, not a workaround. For a notebook like Lesson 29 (Architecture Decisions), a design exercise in comments achieves the goal of active application more honestly than forcing a runnable code exercise onto content that is inherently about judgment rather than execution.
 
 Design exercise cells must still follow standard cell formatting: comment header, objective line, TODO items, and a separator line before the student's workspace.
 
@@ -530,7 +530,7 @@ REASONING_MODEL = "gpt-5"     # Orchestrators and complex reasoning tasks
 Include `REASONING_MODEL` in the setup cell when:
 - The notebook uses it in runnable code
 - The notebook includes templates meant to model a reusable project structure that would use it
-- The notebook explicitly teaches the MODEL vs REASONING_MODEL decision (Lesson 03 introduces the two constants; Lesson 31 covers the full framework)
+- The notebook explicitly teaches the MODEL vs REASONING_MODEL decision (Lesson 01 introduces the two constants; Lesson 29 covers the full framework)
 
 Remove `REASONING_MODEL` from the setup cell when it is unused and the notebook has no teaching purpose that requires naming it.
 
@@ -651,10 +651,10 @@ Remove inline comments from Pydantic field definitions — field names should be
 **Capstone terminology:** For capstone notebooks (Lessons 13, 18, 26, 29), use `## [emoji] Phase N: [Title]` headers for pipeline steps. Phase is the default — use Component or Challenge only when the structure genuinely doesn't fit a sequential pipeline. Reserve `Step 1` / `Step 2` for setup cells only.
 
 **Capstone identities:** Each capstone has a specific pedagogical identity that must be preserved:
-- Capstone 1 (Lesson 13, Research Agent): Build a useful single-agent tool
-- Capstone 2 (Lesson 18, Research Team): Coordinate multiple agents
-- Capstone 3 (Lesson 26, Customer Service): Ship a reliable production agent — owns the safety theme
-- Capstone 4 (Lesson 29, MCP Assistant): Extend the agent beyond its local environment — headline is external integration, not safety
+- Capstone 1 (Lesson 11, Research Agent): Build a useful single-agent tool
+- Capstone 2 (Lesson 16, Research Team): Coordinate multiple agents
+- Capstone 3 (Lesson 24, Customer Service): Ship a reliable production agent — owns the safety theme
+- Capstone 4 (Lesson 27, MCP Assistant): Extend the agent beyond its local environment — headline is external integration, not safety
 
 **Capstone internal dividers:** Inside multi-phase functions, use section dividers with a comment label to separate phases clearly:
 
@@ -675,7 +675,7 @@ Remove inline comments from Pydantic field definitions — field names should be
 
 A markdown divider must separate any Cleanup code cell from whatever follows it.
 
-**Tracing cells:** Teach tracing at the concept level. Tell students that runs are automatically recorded and can be inspected to see input, instructions, and output together. Avoid step-by-step UI navigation instructions — interface locations change, create support noise, and distract from the lesson. One or two concept-level sentences is the right weight for any notebook that is not dedicated to tracing (Lesson 25 is the exception).
+**Tracing cells:** Teach tracing at the concept level. Tell students that runs are automatically recorded and can be inspected to see input, instructions, and output together. Avoid step-by-step UI navigation instructions — interface locations change, create support noise, and distract from the lesson. One or two concept-level sentences is the right weight for any notebook that is not dedicated to tracing (Lesson 23 is the exception).
 
 ---
 
@@ -985,7 +985,7 @@ Claude sees the denial message and adjusts — typically it explains the command
 
 This is deterministic safety: your check runs before the shell does, regardless of how the agent frames the command.
 
-Substring matching is illustrative — real-world attackers can evade it; Hooks in Lesson 22 are the stronger production pattern.
+Substring matching is illustrative — real-world attackers can evade it; Hooks in Lesson 20 are the stronger production pattern.
 ```
 
 After:
@@ -997,7 +997,7 @@ When the callback returns `PermissionResultDeny`, the tool call never executes.
 Claude sees the denial message and adjusts — usually explaining the block and asking what to do next.
 ```
 
-*Pattern:* Why This Works cells default to one clear sentence — two at most. Cut lines that restate the demo result ("your check runs before the shell" is implied by "the tool call never executes"). Cut forward references and caveats ("Hooks in Lesson 22 are stronger") — they belong in KT or a security note, not in the Why This Works explanation. End on what the student needs to carry forward.
+*Pattern:* Why This Works cells default to one clear sentence — two at most. Cut lines that restate the demo result ("your check runs before the shell" is implied by "the tool call never executes"). Cut forward references and caveats ("Hooks in Lesson 20 are stronger") — they belong in KT or a security note, not in the Why This Works explanation. End on what the student needs to carry forward.
 
 ---
 
