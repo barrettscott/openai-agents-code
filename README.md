@@ -316,7 +316,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 ## 📍 What's Next
 
 1. **Setup 1: Environment Check** — verify your Python environment and packages
-2. **Setup 2: OpenAI Setup** — connect to OpenAI, set up your API key, and run your first agent
+2. **Setup 2: OpenAI** — connect to OpenAI, set up your API key, and run your first agent
 
 ---
 
