@@ -42,7 +42,7 @@ In this notebook, we'll turn Python functions into tools your agent can call...
 ---
 ```
 
-**Setup rule (canonical — referenced from other sections):** Lesson 01 uses a full Environment Check with the header `## ✅ Step 1: Environment Check (Diagnostic Only)`. All other notebooks use `## 🔧 Setup` by default. Use `## 🔧 Step 1: Setup` only when the notebook has a genuinely sequenced setup phase where numbering adds clarity.
+**Setup rule (canonical — referenced from other sections):** Setup 1 uses a full Environment Check with the header `## ✅ Step 1: Environment Check (Diagnostic Only)`. All other notebooks use `## 🔧 Setup` by default. Use `## 🔧 Step 1: Setup` only when the notebook has a genuinely sequenced setup phase where numbering adds clarity.
 
 **The Framing:** A short 🎯 The Problem framing cell to contextualize the lesson. Omit if an opening demo already provides sufficient context — the cell exists to motivate the lesson, not to satisfy a structural requirement. Aim for two short sentences — one to set up the problem, one to land the key insight. When the lesson requires a scenario to make the stakes concrete (e.g., walking through a specific failure mode step by step), the cell may run longer — use judgment. If it reads like a lecture, cut; if it earns its length, keep it.
 
@@ -73,7 +73,7 @@ The standard end-of-notebook section order is:
 9. Course Complete cell (only in the final notebook — Lesson 30)
 10. `---` divider
 
-**Lesson 01 exception:** Lesson 01 (Environment Check) omits Practice Exercises entirely (see Practice Exercises section). Its end-of-notebook order is Key Takeaways → Next Step → Troubleshooting.
+**Setup 1 exception:** Setup 1 (Environment Check) omits Practice Exercises entirely (see Practice Exercises section). Its end-of-notebook order is Key Takeaways → Next Step → Troubleshooting.
 
 **Course Complete placement:** When present, the Course Complete cell appears after Troubleshooting, never before it. Placing it between Key Takeaways and Next Step, or between Next Step and Troubleshooting, is a section-order violation.
 
@@ -117,7 +117,7 @@ The triple-quoted instructions rule (2+ lines must be assigned to a variable fir
 
 ## Practice Exercises
 
-**Lesson 01 exemption:** Lesson 01 (Environment Check) does not require a Practice Exercises section. It is a pre-flight diagnostic lesson; students have no API key, no agent, and nothing meaningful to practice beyond the environment check itself. Do not flag Lesson 01 for a missing Practice Exercises section.
+**Setup 1 exemption:** Setup 1 (Environment Check) does not require a Practice Exercises section. It is a pre-flight diagnostic lesson; students have no API key, no agent, and nothing meaningful to practice beyond the environment check itself. Do not flag Setup 1 for a missing Practice Exercises section.
 
 **Standard format — markdown cell:**
 
@@ -373,7 +373,7 @@ print("✅ my_function() ready")
 
 These are default patterns. Notebook-specific imports should follow actual usage — add what you use, omit what you don't. Do not mechanically flag a notebook for including an import that the notebook actually uses, or for omitting one it doesn't need.
 
-**Lesson 01 (environment check only — no agent):**
+**Setup 1 (environment check only — no agent):**
 
 ```python
 import os
@@ -382,7 +382,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 ```
 
-**All runnable agent notebooks (including Lesson 01 after the environment check):**
+**All runnable agent notebooks (including Setup 1 after the environment check):**
 
 ```python
 from pathlib import Path
@@ -427,7 +427,7 @@ def truncate_response(text, max_length=1200):
 
 ## Environment Check Pattern (Canonical)
 
-Lesson 01 uses this full diagnostic pattern. See the canonical setup rule in Notebook Structure for when this pattern applies vs. when to use the simpler `## 🔧 Setup` cell.
+Setup 1 uses this full diagnostic pattern. See the canonical setup rule in Notebook Structure for when this pattern applies vs. when to use the simpler `## 🔧 Setup` cell.
 
 ```python
 import os
