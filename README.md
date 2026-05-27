@@ -309,7 +309,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 ```
 📁 Z_Setup/
-└── 📓 Setup_Notebook_1_Environment_Check.ipynb
+└── 📓 Setup_1_Environment_Check.ipynb
 ```
 
 **Select the kernel:** The kernel indicator in the top-right should show **openai-agents**.
