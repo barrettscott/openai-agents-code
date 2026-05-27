@@ -314,7 +314,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 
 **Select the kernel:** The kernel indicator in the top-right should show **openai-agents**.
 
-- If it doesn't, click **Select Kernel → Jupyter Kernel → openai-agents**
+- If it doesn't, click **Select Kernel** and type `openai-agents` in the search box, then pick it from the list
 
 ---
 
