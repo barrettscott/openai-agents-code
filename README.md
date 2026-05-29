@@ -312,10 +312,7 @@ You should see all the course notebooks and files in the Explorer panel on the l
 └── 📓 Setup_1_Environment_Check.ipynb
 ```
 
-**Select the kernel:** The kernel indicator in the top-right should show **openai-agents**.
-
-- If it doesn't, click **Select Kernel → Jupyter Kernel...** and pick `openai-agents` from the list
-- If `openai-agents` isn't in the list, close VS Code completely, reopen it, and try again — newly registered kernels sometimes need a moment to appear
+Setup_1 will walk you through selecting the kernel and verifying your environment.
 
 ---
 
