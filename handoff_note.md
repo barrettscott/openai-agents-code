@@ -2,11 +2,17 @@
 
 ## Current Session State
 
-**Last updated:** 2026-05-25 (renumber session)
+**Last updated:** 2026-06-11 (Key Takeaways sub-header sweep)
 
 ### What is in progress
 
 Nothing. Course is renumbered and calibrated.
+
+### Latest milestone: Key Takeaways sub-header sweep (2026-06-11)
+
+Swept all content-notebook `## 🎯 Key Takeaways` cells (in parallel with ca) to enforce two design-guideline rules: sub-headers state a claim, not a topic; takeaways must be accurate, not absolute. ~39 headers converted across NB01, 03, 08, 09, 11, 12, 13, 18, 19, 20, 22, 24, 25, 26, 27. NB03 brought in line with ca's version (headers + softened "Always pair…" bullet). "Always X:" headers (07/09/14) checked and kept as demo-supported. Setup notebooks left alone. The design-guideline source of truth lives in the ca repo's `design_guidelines.md`.
+
+Also ported the repo-root-anchoring `.env` automation into `Z_Setup/Setup_2_OpenAI.ipynb` (mirrors ca Setup_2). Branch: `master`.
 
 ### Latest milestone: course renumber
 
