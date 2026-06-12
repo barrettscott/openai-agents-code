@@ -4,3 +4,9 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .fuse_hidden*
+
+# Course runtime artifacts (created by notebooks at run time, regenerated each run)
+*workspace*/
+*_sandbox/
+*_demo/
+report.md
