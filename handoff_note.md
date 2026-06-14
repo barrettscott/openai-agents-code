@@ -2,13 +2,17 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-11 (Key Takeaways sub-header sweep)
+**Last updated:** 2026-06-14 (parity tidies with ca)
 
 ### What is in progress
 
 Nothing. Course is renumbered and calibrated.
 
-### Latest milestone: Key Takeaways sub-header sweep (2026-06-11)
+### Parity tidies with ca (2026-06-14)
+
+Carried over from the ca work this session: (1) MCP notebooks (NB25–27) — made `workspace` absolute and changed setup prints to show `Week_…/name` instead of the full resolved path; (2) NB07 `test_cases.json` — added a `_source` key naming the notebook and gitignored it (twin of ca's `golden_tests.json`); (3) `.gitignore` — runtime artifacts (`*workspace*/`, `*_sandbox/`, `*_demo/`, `report.md`) + `test_cases.json`; (4) `.zshrc` `zip-oa` now bundles `Z_Setup`. oa has **no** path-resolution bug (no bundled-CLI cwd; MCP servers use `str(workspace.resolve())`) and **no** fixtures dependency. **Not run end-to-end** (different SDK); only ca got the execution-verification pass.
+
+### Earlier milestone: Key Takeaways sub-header sweep (2026-06-11)
 
 Swept all content-notebook `## 🎯 Key Takeaways` cells (in parallel with ca) to enforce two design-guideline rules: sub-headers state a claim, not a topic; takeaways must be accurate, not absolute. ~39 headers converted across NB01, 03, 08, 09, 11, 12, 13, 18, 19, 20, 22, 24, 25, 26, 27. NB03 brought in line with ca's version (headers + softened "Always pair…" bullet). "Always X:" headers (07/09/14) checked and kept as demo-supported. Setup notebooks left alone. The design-guideline source of truth lives in the ca repo's `design_guidelines.md`.
 
