@@ -2,11 +2,22 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-14 (parity tidies with ca)
+**Last updated:** 2026-06-16 (6-section restructure + ca-parity port)
 
 ### What is in progress
 
-Nothing. Course is renumbered and calibrated.
+Nothing. Course is now **6 week-sections** (NB01–30), parity-ported from the ca session.
+
+### Latest milestone: 6-section restructure + ca-parity port (2026-06-16)
+
+Ported the ca session's structural + content work to oa. **Boundary-only re-section (no renumbering)** — NB01–30 keep their numbers/order, so "Lesson N" cross-refs are untouched; nothing referenced Weeks 4–6 by name, so zero in-notebook week-ref remap.
+
+- **6-week restructure** (commit `22aae13`): old Week 4 (Memory/Safety/Observability, 8 nbs/1,749 code lines — the lone outlier) split into **W4 Stateful & Guarded Agents** (17–20: Sessions, Persistent, Vector, Guardrails) + **W5 Safety & Observability** (21–24: Injection, HITL, Tracing, Capstone 3); old W5 MCP → W6. Mirrors ca's "Stateful & Observable Agents" move (folded the SDK's control mechanism — Guardrails here, Hooks in ca — in with memory). Course curve: 615/1266/1105/671/1078/1210, no outlier. `zip-oa` globs `Week_*` → no change. Also removed 9 pre-existing tracked junk files (2 old-numbered `.ipynb_checkpoints`, 7 `.DS_Store`).
+- **NB06 Error Handling trim** (commit `35e9700`): same call as ca NB07 — cut Part 4 (Fallback) + Part 5 (Runner-Level Recovery), `idempotent`→"safe-to-repeat", removed Exercise 2 (fallback), trimmed KT. 48→35 cells. oa-specific: Part 1 left intact (OpenAI SDK *catches* tool exceptions by default; oa disables with `failure_error_function=None` — ca's "crashes the run" framing doesn't apply); KT was already correct bullet format.
+- **Parity ports** (commit `3a6a61b`): design_guidelines capstone numbers fixed (13/18/26/29 → 11/16/24/27); adjacent-cell headers added (NB11 `## 🧹 Cleanup`, NB15 `#### Define the Critique Loop`) — no adjacent code-cell pairs remain anywhere; removed fully-applied `cc_corrections.md`.
+- **course_outline.md synced** (commit `a6f3176`): was stale from the renumber too (old L03–L32, tracing as L25, etc.) — full reconciliation to Z_Setup + NB01–30 + the 6 weeks; all refs verified.
+
+Known follow-up (not done): oa NB21 (Prompt Injection) still uses "idempotent" — a candidate for the same "safe-to-repeat" swap as NB06, left for now (NB06 was the approved scope). README.md + TROUBLESHOOTING.md were checked and are already clean (no stale week/lesson refs, no fixtures). oa still **not run end-to-end** (different SDK).
 
 ### Parity tidies with ca (2026-06-14)
 
