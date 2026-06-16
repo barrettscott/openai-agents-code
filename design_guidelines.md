@@ -648,7 +648,7 @@ Remove inline comments from Pydantic field definitions — field names should be
 
 ## Content Guidelines
 
-**Capstone terminology:** For capstone notebooks (Lessons 13, 18, 26, 29), use `## [emoji] Phase N: [Title]` headers for pipeline steps. Phase is the default — use Component or Challenge only when the structure genuinely doesn't fit a sequential pipeline. Reserve `Step 1` / `Step 2` for setup cells only.
+**Capstone terminology:** For capstone notebooks (Lessons 11, 16, 24, 27), use `## [emoji] Phase N: [Title]` headers for pipeline steps. Phase is the default — use Component or Challenge only when the structure genuinely doesn't fit a sequential pipeline. Reserve `Step 1` / `Step 2` for setup cells only.
 
 **Capstone identities:** Each capstone has a specific pedagogical identity that must be preserved:
 - Capstone 1 (Lesson 11, Research Agent): Build a useful single-agent tool
