@@ -2,7 +2,20 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-16 (6-section restructure + ca-parity port)
+**Last updated:** 2026-06-18 (cross-reference audit + fixes)
+
+### Latest milestone: cross-reference audit + fixes (2026-06-18)
+
+Part of a 13-agent parallel review of NB02–30 (both courses) + a systematic lesson cross-reference audit. Full detail: `/tmp/nb_review/SESSION_RESULT.md`.
+
+**oa — commit `35b36fd` (9 notebooks, NOT pushed; branch ahead 1):**
+- NB03 (multi-tool assistant ref → L02), NB07 (deleted 2 orphaned MARKDOWN cells holding unfenced Python that duplicated runnable cells 27 & 29), NB10 (KT "upload to container" → "Files API + file_ids"), NB11 (built-in tools "Lessons 10–12" → "08–10"; "auto" sandbox-reuse comment corrected), NB16/24/29 ("judge agent … Lesson 09" → L07 — recurring stale ref), NB23 (reflowed a broken query literal), NB30 (capstone refs → L24/L27).
+
+**NEEDS A WORKING oa SDK (could not run headless here — `agents` not installed):**
+- **NB20 Guardrails:** `blocking_agent` is used (cell 29) but never defined → `NameError`. Suggested cell (mirrors `cooking_agent`, adds `run_in_parallel=False`) is in SESSION_RESULT.md — but VERIFY `InputGuardrail` accepts `run_in_parallel` in the pinned SDK; the whole Part 5 narrative assumes it.
+- **NB27 Capstone 4:** cells 11 & 13 pass `require_approval=` to `MCPServerStdio` — possibly an invalid kwarg → `TypeError` failing the capstone. Run those cells before recording.
+
+Left UNCOMMITTED for Scott: NB04 intro reword (parity with ca; await wording approval).
 
 ### What is in progress
 
