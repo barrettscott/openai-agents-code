@@ -102,11 +102,10 @@
 ### 07: Testing & Evaluating Agents (`07_Testing_Agents.ipynb`)
 - Why demos lie — building agents vs knowing they work
 - Defining success criteria
-- Building a golden test set — saving and versioning over time
+- Building a golden test set
 - Checking tool-use correctness and output quality
 - Rubric-based evaluation with a judge agent
-- Comparing two agent or prompt versions
-- Regression checks after model swaps, prompt changes, or schema updates
+- Regression checks after prompt or model changes — comparing versions on the same test set (practiced in the exercise)
 - Note: when an eval fails, tracing explains why — covered in Lesson 23
 - Practice exercises
 
