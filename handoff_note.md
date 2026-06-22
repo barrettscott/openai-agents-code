@@ -2,9 +2,32 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-18 (cross-reference audit + fixes)
+**Last updated:** 2026-06-22 (first full run-verification sweep)
 
-### Latest milestone: cross-reference audit + fixes (2026-06-18)
+### Latest milestone: first headless run-verification sweep (2026-06-22)
+
+**oa had never been run end-to-end before this session.** Found the SDK env (`/opt/anaconda3/envs/openai-agents/`, py3.11) and registered a Jupyter kernel named `openai-agents` (reversible: `jupyter kernelspec remove openai-agents`). Ran all 30 notebooks headless via nbclient (`allow_errors=True`). This caught two **fully-broken** lessons that prose review had missed.
+
+**Pushed to `master` (3 commits, `5f64832..3e7a0bf`):**
+- **NB20 Guardrails** (`ab7363e`) — every guardrail was double-wrapped (decorated `@input_guardrail`/`@output_guardrail` re-wrapped in `InputGuardrail(...)`) → `AttributeError: 'InputGuardrail' object has no attribute '__name__'` at runtime. Whole lesson was dead. Fixed: decorated guardrails attach **directly** (`input_guardrails=[topic_guardrail]`); for `run_in_parallel` wrap the underlying fn: `InputGuardrail(topic_guardrail.guardrail_function, run_in_parallel=False)`. Also added the missing `blocking_agent` cell. Verified green.
+- **NB24 Capstone 3** (`13dff6c`) — same double-wrap (c17) → fixed `input_guardrails=[support_topic_guardrail]`.
+- **NB22 Human-in-the-Loop** (`13dff6c`) — `state.reject(message=…)` is wrong kwarg → it's `rejection_message=…` (fixed c19/c25/c41). NB27 had the same and was corrected too.
+- **`.gitignore`** (`3e7a0bf`) — ignore `*.sqlite*` session/memory stores that NB17/NB18 generate when run.
+
+**Resolved the two prior "NEEDS A WORKING SDK" flags:**
+- NB20 — was the `blocking_agent` NameError *plus* the deeper double-wrap bug. Both fixed. `InputGuardrail` **does** accept `run_in_parallel` (confirmed by running).
+- NB27 `require_approval=` on `MCPServerStdio` — **FALSE ALARM**. Valid kwarg in SDK 0.13.0. No change needed.
+
+**Tool-use gap closed** (in `5f64832`, NB07 Testing): added tool-call checking — `tool_names = [item.raw_item.name for item in result.new_items if isinstance(item, ToolCallItem)]` (note: `ToolCallItem` has no `.name`; name is on `.raw_item`).
+
+**Sweep verdict — all 30:**
+- 3 real bugs (NB20/24/22) — fixed & verified above.
+- NB13–17 timed out in the burst run but are **clean** — re-run fresh & sequential they finish in 68–370s with zero errors (burst rate-limiting, not bugs).
+- Env-blocked here (NOT code bugs, will run on the recording machine): NB19 (`chromadb`), NB26/NB27 (`uvx`).
+- Remaining 19 clean.
+- Sweep artifacts: `/tmp/oa_sweep/` (`sweep.py`, `results.txt`, `timeouts.py`, `timeouts_results.txt`).
+
+### Earlier this session: cross-reference audit + fixes (2026-06-18)
 
 Part of a 13-agent parallel review of NB02–30 (both courses) + a systematic lesson cross-reference audit. Full detail: `/tmp/nb_review/SESSION_RESULT.md`.
 
