@@ -2,9 +2,15 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-22 (first full run-verification sweep)
+**Last updated:** 2026-06-22 (nbstripout + run-verification sweep)
 
-### Latest milestone: first headless run-verification sweep (2026-06-22)
+### Latest milestone: nbstripout repo hygiene (2026-06-22)
+
+**Added `nbstripout` git clean filter (commit `c842971`).** Committed notebooks now carry **no outputs**, no execution counts, and no `language_info.version`. This ends cross-machine version churn (oa notebooks had drifted across Python 3.11.13/14/15) and gives a clean course-as-code state (only 1 notebook had stray outputs). Setup: committed `.gitattributes` (`*.ipynb filter=nbstripout`), `filter.nbstripout.extrakeys = metadata.language_info.version`, `required = true`. **kernelspec left as-is** (the `claude-agents` normalization was ca-specific; oa keeps its own kernel). Each *committing* machine needs `pip install nbstripout`; the Studio Mac is record-only → no install needed. Mirrors the ca setup; see memory `reference_nbstripout_setup`.
+
+**Last oa commit:** `c842971`
+
+### Earlier milestone: first headless run-verification sweep (2026-06-22)
 
 **oa had never been run end-to-end before this session.** Found the SDK env (`/opt/anaconda3/envs/openai-agents/`, py3.11) and registered a Jupyter kernel named `openai-agents` (reversible: `jupyter kernelspec remove openai-agents`). Ran all 30 notebooks headless via nbclient (`allow_errors=True`). This caught two **fully-broken** lessons that prose review had missed.
 
