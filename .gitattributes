@@ -1,0 +1,5 @@
+# Strip notebook outputs, execution counts, and volatile metadata on commit.
+# Requires nbstripout installed locally (pip install nbstripout) — see handoff_note.
+# Version churn (language_info.version) is stripped via filter.nbstripout.extrakeys.
+*.ipynb filter=nbstripout
+*.ipynb diff=ipynb
