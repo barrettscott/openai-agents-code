@@ -14,7 +14,7 @@ When reviewing a notebook, apply these in order. A notebook that passes these fo
 
 3. **Code hygiene.** Code runs cleanly. Imports match actual usage. No hardcoded model strings outside the constants block. Async handling is correct. Instructions of 2+ lines are assigned to a variable before the Agent() constructor.
 
-4. **Teaching clarity.** Markdown is for student reading, not on-camera narration — this is the most common failure mode and the first thing to cut. One main idea per markdown cell. No wall-of-text. Benefits/problems lists kept to 3 bullets max (process flows, specs, and checklists exempt). No em dashes in course content (markdown or any string literal shown on camera); use a colon, comma, period, or parentheses instead.
+4. **Teaching clarity.** Markdown is for student reading, not on-camera narration — this is the most common failure mode and the first thing to cut. One main idea per markdown cell. No wall-of-text. Benefits/problems lists kept to 3 bullets max (process flows, specs, and checklists exempt). No em dashes or semicolons in course content (markdown or any string literal shown on camera). Use a colon, comma, period, or parentheses instead.
 
 Below this section, rules are organized by topic. Formatting preferences (emoji usage, specific HTML wrappers, table formatting) are lower priority than the four categories above.
 
