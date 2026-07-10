@@ -254,6 +254,77 @@ Design exercise cells must still follow standard cell formatting: comment header
 
 ---
 
+## Camera Shapes — Cell Templates
+
+Recurring markdown cells follow fixed shapes. On a prose pass, rewrite the cell TO its shape from the content — don't trim words inside a wordy cell. A cell that resists its shape needs a content cut, not a wording cut. (Examples below come from the ca course's NB15–19 passes; the shapes apply to both courses.)
+
+Canonical homes elsewhere: Key Takeaways format (Markdown Pacing Rules), exercise markdown/code formats (Practice Exercises), before/after calibration (Tightening Prose).
+
+**Problem cell** — 2–4 short lines, no solution preview:
+
+```
+## 🎯 The Problem
+
+[The action, one line.]
+
+[The failure or gap, one line.]
+
+[Optional: one scope or caveat line.]
+```
+
+**Part intro cell** — thesis, optional counted lead-in, parallel bullets, optional demo pointer:
+
+```
+## [emoji] Part N: [Title]
+
+[Thesis, 14 words or fewer.]
+
+[Count] [limits/helpers/operations]:
+
+- **[Bold claim.]** [Evidence tail, ~8 words or fewer.]
+
+- `[helper(...)]`: [what it does or returns]
+
+[Optional: "Demo below: x, y, z."]
+```
+
+Rules: one idea per bullet; sentence bullets keep their periods; every bullet in a list uses the same grammatical shape; a counted lead-in ("Four limits:", "Three helpers:") beats an uncounted one; concrete examples earn their place (a coffee-order query beats "cross-session facts").
+
+**Note cell** (⚠️ security/data notes) — bold label plus short beats, no bullets:
+
+```
+⚠️ **[Label]:** [The risk, one clause.]
+
+[The instruction, one line.]
+
+**[Sub-case]:** [one clause.]
+
+[Its consequence, one line.]
+```
+
+**Exercise stub comments** — extends the canonical format in Practice Exercises:
+
+- `# Objective:` may take a second `#` line when one line would exceed ~80 characters. Break at a clause boundary.
+- Each TODO comment line carries ONE instruction. Never wrap mid-clause or mid-SQL:
+
+  ```
+  ❌ Wraps mid-SQL:
+  # TODO 3: Implement forget_about(keyword). DELETE rows where key LIKE ? OR
+  #           value LIKE ? (use %keyword% pattern). Print how many were removed.
+
+  ✅ One instruction per line:
+  # TODO 3: Implement forget_about(keyword).
+  #           DELETE rows where key LIKE ? OR value LIKE ?.
+  #           Use f"%{keyword}%" as the pattern.
+  #           Print how many rows were removed.
+  ```
+
+- Show real syntax in hints (`f"%{keyword}%"`), not prose descriptions of syntax ("use a %keyword% pattern").
+
+**Cross-cell ownership** — before adding a claim to an intro, check whether another cell (security note, Key Takeaways, a code comment) already owns it. Each claim gets exactly one home.
+
+---
+
 ## Notebook Length Management
 
 Long notebooks often turn into long videos that weaken pacing and lose student attention. Each notebook should teach one coherent concept. Parts that do not introduce a new teaching beat should be cut, merged, or shortened.
