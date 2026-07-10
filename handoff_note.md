@@ -130,14 +130,19 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 
 If returning to make further prose changes, follow this order:
 
-1. Read `design_guidelines.md` — especially Examples 1–12 (the few-shot section)
-2. Read the target notebook's markdown cells in full
-3. Produce a proposed changes list — one entry per cell, showing before/after. **For each cell, decide what content survives first (the trim), then apply mechanical formatting (one sentence per line, em-dashes, blank lines) only to what survives.** Lead each proposal with the cut, not the splits. Hard ceilings: Key Takeaway ≤ 2 sentences; Part intros ≤ 3 short lines; decision-guide cells ≤ 3 bullets.
-4. Get approval before writing
-5. Use `nbformat` to read/write — never `json.load`/`json.dump`
-6. Use the safe_write pattern (write to `.tmp`, then `shutil.move`)
-7. Verify the changes in the raw JSON after writing
-8. Commit and push to `origin master`
+1. Read `design_guidelines.md` — Examples 1–12 (few-shot) AND the Camera Shapes section
+2. Run the camera lint BEFORE proposing (spec: memory `reference_camera_lint.md`; regenerate `nb_camera_lint.py` per session)
+3. Read the target notebook's markdown cells in full
+4. REWRITE every Problem / Part-intro / note cell to its Camera Shape from scratch — keep the rewrite only where it's clearly better. Trim-in-place is how wordy cells survive passes. The ca NB15–19 tightened cells are templates for twin cells here.
+5. Adjudicate every lint hit: a LONG-LINE in a body cell is guilty by default — split/cut it or carry a one-line justification in the proposal. No silent acquittals.
+6. Cross-cell dedup: flag any intro claim another cell already owns (security note, KT, code comment)
+7. Exercise stubs get the same pass: objectives ≤ 2 comment lines, TODOs one instruction per line, no mid-clause wraps
+8. Produce the proposal — one entry per cell, before/after. **Decide what content survives first (the trim), then apply mechanical formatting only to what survives.** Lead with the cut, not the splits. Hard ceilings: Key Takeaway ≤ 2 sentences; Part intros ≤ 3 short lines plus bullets; decision-guide cells ≤ 3 bullets.
+9. Get approval before writing
+10. Use `nbformat` to read/write — never `json.load`/`json.dump`
+11. Use the safe_write pattern (write to `.tmp`, then `shutil.move`)
+12. Verify the changes in the raw JSON after writing, then re-run the lint as a regression gate
+13. Commit; push to `origin master` when Scott says push
 
 **Do not touch code cells.**
 
