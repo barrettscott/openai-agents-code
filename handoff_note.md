@@ -113,6 +113,7 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 - Add "How to take this course" lecture introducing the two-pass model
 - README "What's Next" section may need a rewrite tied to that restructure
 - ~~NB27 duplicate Option A/B fix~~ — done in `a62113c` (Option B is now Git server)
+- **Camera prose pass, NB14–18 first** (measured 2026-07-10: 88 lint findings — NB14: 17 LONG + 2 FAT + 1 BANNED, NB15: 13 LONG + 2 MULTI, NB16: 7 LONG + 3 MULTI, NB17: 12 LONG + 5 MULTI, NB18: 17 LONG + 8 MULTI + 1 BANNED). Run the ca protocol: Camera Shapes section (now in this repo's design_guidelines) + camera lint (spec: ca memory `reference_camera_lint.md`). The ca NB15–19 tightened cells are templates for the twin cells here (oa 18 short-vs-long ≈ ca 19 Part 3; oa 18 What-NOT-to-Store ≈ ca 19 Part 5; same-name notebooks 14/15/16 ≈ ca 16/17/18) — adapt SDK details, keep the shape. Content verified separately: oa 16's "Phase 5" exercise and oa 18's noisy-memory/stale-cleanup beats are real here (no ca-style outline drift).
 
 ### Important rules
 
