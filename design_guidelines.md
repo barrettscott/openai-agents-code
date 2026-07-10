@@ -344,6 +344,8 @@ print("✅ my_function() ready")
 
 **Inline comments:** Remove verbose explanatory comments. Keep structural comments (section headers, TODOs). Keep brief clarifying comments only when logic is non-obvious.
 
+**Punctuation:** The presented-cell punctuation rules apply inside code cells too — no semicolons or em dashes in comments, docstrings, or user-facing strings. Rewrite with a colon, comma, period, or parentheses.
+
 ---
 
 ## Code Style Constraints
