@@ -217,6 +217,7 @@
 - Embeddings — storing meaning, not just text
 - Semantic retrieval — finding relevant memories by meaning
 - Building a vector memory store with ChromaDB
+- Agent integration — a memory-search tool gives the agent on-demand access to the store
 - When to use vector memory vs SQLite
 - Practice exercises
 
