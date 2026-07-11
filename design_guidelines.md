@@ -260,6 +260,39 @@ Recurring markdown cells follow fixed shapes. On a prose pass, rewrite the cell 
 
 Canonical homes elsewhere: Key Takeaways format (Markdown Pacing Rules), exercise markdown/code formats (Practice Exercises), before/after calibration (Tightening Prose).
 
+### Register first: write blunt, not explanatory
+
+Decide the register BEFORE polishing. The default is **blunt**, not tightened-explanatory. Aiming a first pass at the explanatory register and switching to blunt later throws away the polish (this cost the ca course's NB22 four review rounds). Write blunt on pass 1. The examples below come from ca; the register applies to both courses.
+
+Blunt register rules:
+
+- **One clause per line.** Not one sentence per line — one clause. Break "X, but Y" into two lines. Short punchy beats read faster on camera than fewer long lines.
+- **Cut framing and signpost words.** Delete "The core mental model:", "The one idea:", "Not all tools carry the same risk:", "Your job as operator:". State the thing; don't announce that you're about to state it.
+- **`**Label:**` value contrasts.** For paired concepts, lead with a bold label: `**Direct injection:** hostile instructions from the user.` / `**Trusted:** your system prompt and your code.`
+- **Statements over explanations.** Cut "because/so that/which is why" tails. "Write tools create side effects." not "Write tools have side effects that can't be undone, which is why they need approval." The *why* moves to the Key Takeaways or a security note, not the intro.
+- **Merge the opening.** The problem framing and the ⚠️ Safety callout go in ONE cell, not two stacked cells before Setup.
+- **FAT-CELL override.** A cell of many SHORT lines (each under ~10 words) is fine past the 4-line limit — the FAT-CELL rule targets long-line accretion, not staccato. Do NOT fold blunt short lines back into longer ones to satisfy the count.
+
+What survives the cut: concretes that ARE the teaching (a specific number, the exact query the demo runs, a named example). What goes: rationale that merely *explains* (the "why it works" mechanism belongs in KT), and any concrete already shown live in the demo.
+
+Canonical example (a blunt opener that merges problem framing and a safety callout):
+
+```
+Prompt injection is the #1 production risk for agents.
+
+It's not a Claude bug.
+
+Agents read files, web pages, tool output, and user messages as text.
+
+That text can try to steer them.
+
+⚠️ **Safety:** These examples are deliberately obvious.
+
+Modern models often refuse them.
+
+Don't use these patterns against systems you don't own.
+```
+
 **Problem cell** — 2–4 short lines, no solution preview:
 
 ```

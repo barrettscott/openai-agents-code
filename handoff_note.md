@@ -130,7 +130,7 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 
 If returning to make further prose changes, follow this order:
 
-1. Read `design_guidelines.md` — Examples 1–12 (few-shot) AND the Camera Shapes section
+1. Read `design_guidelines.md` — Examples 1–12 (few-shot) AND the Camera Shapes section, especially "Register first: write blunt". Aim pass 1 at the BLUNT register (one clause per line, merged opener, no signpost words) — not tightened-explanatory. Getting the register wrong on pass 1 and switching later is what cost ca's NB22 four rounds.
 2. Run the camera lint BEFORE proposing (spec: memory `reference_camera_lint.md`; regenerate `nb_camera_lint.py` per session)
 3. Read the target notebook's markdown cells in full
 4. REWRITE every Problem / Part-intro / note cell to its Camera Shape from scratch — keep the rewrite only where it's clearly better. Trim-in-place is how wordy cells survive passes. The ca NB15–19 tightened cells are templates for twin cells here.
