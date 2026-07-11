@@ -323,6 +323,20 @@ Rules: one idea per bullet; sentence bullets keep their periods; every bullet in
 
 **Cross-cell ownership** — before adding a claim to an intro, check whether another cell (security note, Key Takeaways, a code comment) already owns it. Each claim gets exactly one home.
 
+**Demo Cleanup cell** — settled across ca NB19–21; applies here unchanged:
+
+- Header is `## 🧹 Demo Cleanup` when exercises follow it (plain `Cleanup` only when nothing follows).
+- Remove what PERSISTS: directories, databases, session files. Never "clean up" in-memory state (lists, dicts, counters) — it dies with the kernel, and clearing it is ceremony that muddies what the cell is for.
+- Tight pattern, no else branch:
+
+  ```python
+  if WORKSPACE.exists():
+      shutil.rmtree(WORKSPACE)
+      print(f"✅ Removed {WORKSPACE.parent.name}/{WORKSPACE.name}")
+  ```
+
+- Exercise workspaces are NOT the demo cleanup's job — each exercise scaffold recreates its own dir (`if exists → rmtree → mkdir`) and its final TODO deletes it.
+
 ---
 
 ## Notebook Length Management
