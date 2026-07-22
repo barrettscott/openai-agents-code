@@ -2,9 +2,22 @@
 
 ## Current Session State
 
-**Last updated:** 2026-06-22 (nbstripout + run-verification sweep)
+**Last updated:** 2026-07-22 (teaching-flow / outline-conformance pass: OA11, OA24, OA22, OA18, OA28)
 
-### Latest milestone: nbstripout repo hygiene (2026-06-22)
+### Latest milestone: teaching-flow / outline-conformance pass (2026-07-22)
+
+Multi-round Codex↔Claude review with **outline conformance as the gate**: every correctness fix named the outline bullet it repaired; any SDK symbol/concept not in a lesson's outline stopped for approval; show-before-write, with a one-time acceptance run per notebook (markdown-only edits skip the rerun). All pushed to `master` (`10c85c0`).
+
+- **NB11 Capstone 1** (`3556535`, squashed) — rewritten from a three-tool "live web research" agent to a **controlled-fixture two-tool capstone**: File Search over two synthetic course-fixture docs (internal survey + cross-industry benchmark) + Code Interpreter, same `ResearchReport`; `WebSearchTool` removed. **Why:** the Responses-API **web-search-citation span-loss corruption** (server-side, confirmed 2026-07-20 by a raw-vs-parsed probe; garbled prose observed again on the old NB11 2026-07-22) made a web-search-dependent capstone unrecordable. Removing web search takes NB11 off that path; accepted run clean of span-loss (say "controlled-fixture," NOT "deterministic" — the model is still stochastic). Diagnostics stay OUT of the student notebook; the human content read is the gate. Memory: `project_nb11_web_corruption_todo`.
+- **NB24 Capstone 3** (`b7f0967`) — removed the untaught `RunContextWrapper[CustomerContext]` typed-context-injection pattern (a new SDK primitive inside a capstone) → application-owned `DEMO_CUSTOMER_ID` constant, labeled a single-customer demo (not production auth; real apps bind identity per request via their auth layer, not the `SQLiteSession`). Every fail-closed invariant preserved (ownership, delivered-status, trusted price, dedup, approval + threshold, session-resume); accepted run demonstrated unauthorized-order rejection, approval/resume, one refund, ledger identity, session persistence, cleanup. Missed sibling caught by the run (cell 27 passed the removed `customer` var — NameError → fixed).
+- **NB22 HITL** (`badb177`) — simplified `handle_refund_request` from six fail-closed branches to four: one compact malformed-args `try/except` instead of separate JSON/non-dict/amount-type/empty-reason branches; kept reject-unknown-tool, trusted-amount validation, handler dedup, threshold + approval, and reason visibility. Exercise 2's list aligned. Same safety, clearer HITL + threshold lesson.
+- **NB18 Persistent Memory + NB28 outline** (`10c85c0`) — **kept** the curated-memory reshape (decision: better than the original, which duplicated NB17's file-backed `SQLiteSession`); added a precise short-term/long-term bridge to The Problem (cell 5): transcript = short-term working context, durable-but-uncurated; long-term = the facts you deliberately retain (NB18 rebuilds the *same* session, NOT a cross-conversation store). Reframed outline entry 18 around persistence-vs-curation (not in-memory-vs-SQLite). NB28: replaced the stale `client.responses.create()` outline bullet (that detour was already removed from the notebook) with "When a single-purpose no-tool agent is enough" (keeps Part 5 in the outline).
+
+All code-cell edits above were **explicitly approved per-item** — the standing "don't touch code cells" rule was waived case-by-case, not ignored.
+
+**Last oa commit:** `10c85c0` (pushed; `master` == `origin/master` before this handoff commit).
+
+### Earlier milestone: nbstripout repo hygiene (2026-06-22)
 
 **Added `nbstripout` git clean filter (commit `c842971`).** Committed notebooks now carry **no outputs**, no execution counts, and no `language_info.version`. This ends cross-machine version churn (oa notebooks had drifted across Python 3.11.13/14/15) and gives a clean course-as-code state (only 1 notebook had stray outputs). Setup: committed `.gitattributes` (`*.ipynb filter=nbstripout`), `filter.nbstripout.extrakeys = metadata.language_info.version`, `required = true`. **kernelspec left as-is** (the `claude-agents` normalization was ca-specific; oa keeps its own kernel). Each *committing* machine needs `pip install nbstripout`; the Studio Mac is record-only → no install needed. Mirrors the ca setup; see memory `reference_nbstripout_setup`.
 
@@ -109,6 +122,8 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 
 ### What is next
 
+- **NB08 (Web Search): normal pre-recording acceptance check** — NOT a corruption investigation. It uses web-search citations so it's exposed to the same upstream span-loss defect (see the 2026-07-22 milestone + memory `project_nb11_web_corruption_todo`), but its workflow is simpler and it ran clean before: treat it like any other notebook. The upstream Responses-API defect itself is unresolved; an upstream bug report would need a fresh raw-vs-parsed capture.
+- The 2026-07-22 rework changed content in NB11/18/22/24 — those cells now feed the camera prose pass below.
 - Watch-first course restructure: move setup section to END of Udemy curriculum
 - Add "How to take this course" lecture introducing the two-pass model
 - README "What's Next" section may need a rewrite tied to that restructure
