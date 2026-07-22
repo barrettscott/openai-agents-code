@@ -131,12 +131,14 @@
 - Practice exercises
 
 ### 11: Capstone #1 — Research Agent (`11_Capstone_1_Research_Agent.ipynb`)
-**Identity: Build a useful single-agent tool**
-- Web search + file search + code interpreter together
+**Identity: Build a useful single-agent research tool**
+- File search over two reference documents (internal survey + industry benchmark) for retrieval
+- Code Interpreter for quantitative analysis: compute the respondent estimate and compare adoption rates and leading barriers across the documents
 - Structured outputs for the final report
-- Error handling for tool failures
-- Agent researches a topic, analyzes documents, produces a structured report with citations
-- Exercise: evaluate the agent against a small golden test set — evaluation follows you into every real agent, not just Week 2
+- Error handling for tool failures; the run enforces that both required tools actually fired
+- Agent retrieves from the documents, runs the numbers, and produces a structured report that cites its source files
+- Exercise: evaluate one captured report with a judge agent (the Lesson 07 pattern applied to a single report)
+- Note: web search is taught separately in Lesson 08
 
 ---
 
