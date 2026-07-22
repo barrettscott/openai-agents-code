@@ -205,13 +205,11 @@
 - Practice exercises
 
 ### 18: Persistent Memory (`18_Persistent_Memory.ipynb`)
-- Short-term vs long-term memory
-- Persistent memory with SQLite
-- Storing preferences and facts across sessions
+- Persistence vs curation: conversation history is working context; long-term memory is the selected facts worth retaining
+- Persisting a durable preference with `SQLiteSession`
+- Controlling session growth: summarize/compact, and validate the summary before replacing history
 - What NOT to store — privacy and sensitive data boundaries
-- Stale memory cleanup and correcting wrong memories
-- Conflicting memories and user-controlled forgetting
-- Avoiding noisy memory — when to summarize vs drop
+- Stale memory cleanup; correcting wrong or conflicting memories; user-controlled forgetting
 - Practice exercises
 
 ### 19: Vector Memory with ChromaDB (`19_Vector_Memory.ipynb`)
@@ -306,7 +304,7 @@
 - A reusable project structure for agent apps
 - Running an agent from a script or CLI
 - Streaming agent output in a script — showing responses as they arrive before Gradio
-- When to drop down to `client.responses.create()` directly — and when not to
+- When a single-purpose no-tool agent is enough
 - Secret management — never hardcode API keys, local `.env` for dev, platform secrets for deployment
 - When to consider a simple API wrapper
 
