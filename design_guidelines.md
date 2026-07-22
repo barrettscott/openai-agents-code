@@ -773,7 +773,7 @@ Remove inline comments from Pydantic field definitions — field names should be
 **Capstone identities:** Each capstone has a specific pedagogical identity that must be preserved:
 - Capstone 1 (Lesson 11, Research Agent): Build a useful single-agent tool
 - Capstone 2 (Lesson 16, Research Team): Coordinate multiple agents
-- Capstone 3 (Lesson 24, Customer Service): Ship a reliable production agent — owns the safety theme
+- Capstone 3 (Lesson 24, Customer Service): Combine production patterns in a customer service pipeline — owns the safety theme
 - Capstone 4 (Lesson 27, MCP Assistant): Extend the agent beyond its local environment — headline is external integration, not safety
 
 **Capstone internal dividers:** Inside multi-phase functions, use section dividers with a comment label to separate phases clearly:

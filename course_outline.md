@@ -256,8 +256,8 @@
 - Debugging bad runs systematically — connecting reliability, evaluation, and observability
 - Practice exercises
 
-### 24: Capstone #3 — Production Customer Service Agent (`24_Capstone_3_Customer_Service.ipynb`)
-**Identity: Ship a reliable production agent**
+### 24: Capstone #3 — Production-Pattern Customer Service Agent (`24_Capstone_3_Customer_Service.ipynb`)
+**Identity: Combine production patterns in a customer service pipeline**
 - Multi-tool agent: order lookup, FAQ search, refund processing
 - Sessions for conversation memory
 - Guardrails blocking off-topic requests

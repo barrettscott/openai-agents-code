@@ -476,7 +476,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 ### Lesson 11: Capstone 1 — Research Agent
 
-**Agent only using one tool instead of all three?**
+**Agent only using one of the two required tools?**
 - Strengthen instructions: explicitly list which tool to use for each type of information
 - Ask follow-up questions that specifically require each tool
 
@@ -490,7 +490,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 **Research taking too long?**
 - Multi-tool runs are slower — 20-40 seconds is normal
-- Narrow the topic to reduce the scope of web search
+- Ask a more focused question so File Search retrieves fewer, more relevant chunks
 
 **Code interpreter not computing anything?**
 - Include specific numerical questions in your research topic
@@ -766,7 +766,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Check `result.interruptions` first, then call `result.to_state()` and inspect pending approvals with `state.get_interruptions()`
 
 **Agent crashes after rejection instead of adapting?**
-- Always provide a `message` parameter to `state.reject()` — it gives the agent context
+- Always provide a `rejection_message` parameter to `state.reject()` — it gives the agent context
 - Strengthen agent instructions to handle rejection gracefully
 
 **Still having issues?**
@@ -821,7 +821,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 **`input()` prompt not appearing?**
 - Click the cell output area in JupyterLab to activate the input field
-- Or set `auto_approve=True` to skip interactive prompts for testing
+- Or set `auto_approve=True` to auto-approve validated low-value refunds for testing (larger refunds still prompt)
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
