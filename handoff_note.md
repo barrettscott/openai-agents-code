@@ -12,6 +12,7 @@ Multi-round Codex↔Claude review with **outline conformance as the gate**: ever
 - **NB24 Capstone 3** (`b7f0967`) — removed the untaught `RunContextWrapper[CustomerContext]` typed-context-injection pattern (a new SDK primitive inside a capstone) → application-owned `DEMO_CUSTOMER_ID` constant, labeled a single-customer demo (not production auth; real apps bind identity per request via their auth layer, not the `SQLiteSession`). Every fail-closed invariant preserved (ownership, delivered-status, trusted price, dedup, approval + threshold, session-resume); accepted run demonstrated unauthorized-order rejection, approval/resume, one refund, ledger identity, session persistence, cleanup. Missed sibling caught by the run (cell 27 passed the removed `customer` var — NameError → fixed).
 - **NB22 HITL** (`badb177`) — simplified `handle_refund_request` from six fail-closed branches to four: one compact malformed-args `try/except` instead of separate JSON/non-dict/amount-type/empty-reason branches; kept reject-unknown-tool, trusted-amount validation, handler dedup, threshold + approval, and reason visibility. Exercise 2's list aligned. Same safety, clearer HITL + threshold lesson.
 - **NB18 Persistent Memory + NB28 outline** (`10c85c0`) — **kept** the curated-memory reshape (decision: better than the original, which duplicated NB17's file-backed `SQLiteSession`); added a precise short-term/long-term bridge to The Problem (cell 5): transcript = short-term working context, durable-but-uncurated; long-term = the facts you deliberately retain (NB18 rebuilds the *same* session, NOT a cross-conversation store). Reframed outline entry 18 around persistence-vs-curation (not in-memory-vs-SQLite). NB28: replaced the stale `client.responses.create()` outline bullet (that detour was already removed from the notebook) with "When a single-purpose no-tool agent is enough" (keeps Part 5 in the outline).
+- **NB08 Web Search** — acceptance check passed; no span loss was observed in this run (no notebook change needed).
 
 All code-cell edits above were **explicitly approved per-item** — the standing "don't touch code cells" rule was waived case-by-case, not ignored.
 
@@ -122,7 +123,6 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 
 ### What is next
 
-- **NB08 (Web Search): normal pre-recording acceptance check** — NOT a corruption investigation. It uses web-search citations so it's exposed to the same upstream span-loss defect (see the 2026-07-22 milestone + memory `project_nb11_web_corruption_todo`), but its workflow is simpler and it ran clean before: treat it like any other notebook. The upstream Responses-API defect itself is unresolved; an upstream bug report would need a fresh raw-vs-parsed capture.
 - The 2026-07-22 rework changed content in NB11/18/22/24 — those cells now feed the camera prose pass below.
 - Watch-first course restructure: move setup section to END of Udemy curriculum
 - Add "How to take this course" lecture introducing the two-pass model
