@@ -2,9 +2,24 @@
 
 ## Current Session State
 
-**Last updated:** 2026-07-22 (teaching-flow / outline-conformance pass: OA11, OA24, OA22, OA18, OA28)
+**Last updated:** 2026-08-12 (review workflow reset; no next notebook selected)
 
-### Latest milestone: teaching-flow / outline-conformance pass (2026-07-22)
+### Latest milestone: review workflow reset (2026-08-12)
+
+The earlier camera-prose target for NB14–18 came from a batch-oriented review
+pass that was not producing reliable results. It is retired as an active work
+queue. No next notebook is selected.
+
+Future work uses the mature process established in the `claude-agents` course:
+one notebook at a time, file hash pinned before every round, full artifact and
+runtime review, outline conformance as the scope gate, findings before edits,
+and explicit per-item approval. Lint counts and prose metrics inform a review;
+they do not select the target or determine the verdict.
+
+A root `AGENTS.md` now records the durable workflow for future chats. Historical
+batch-review notes below remain as provenance, not current direction.
+
+### Earlier milestone: teaching-flow / outline-conformance pass (2026-07-22)
 
 Multi-round Codex↔Claude review with **outline conformance as the gate**: every correctness fix named the outline bullet it repaired; any SDK symbol/concept not in a lesson's outline stopped for approval; show-before-write, with a one-time acceptance run per notebook (markdown-only edits skip the rerun). All pushed to `master` (`10c85c0`).
 
@@ -62,7 +77,8 @@ Left UNCOMMITTED for Scott: NB04 intro reword (parity with ca; await wording app
 
 ### What is in progress
 
-Nothing. Course is now **6 week-sections** (NB01–30), parity-ported from the ca session.
+Nothing. No next notebook has been selected. Course is now **6 week-sections**
+(NB01–30), parity-ported from the ca session.
 
 ### Latest milestone: 6-section restructure + ca-parity port (2026-06-16)
 
@@ -123,12 +139,12 @@ All prose review work complete. Calibration pass (May 24–25, 2026) applied:
 
 ### What is next
 
-- The 2026-07-22 rework changed content in NB11/18/22/24 — those cells now feed the camera prose pass below.
+- Select the next notebook deliberately with Scott, then review it alone under
+  the root `AGENTS.md` workflow.
 - Watch-first course restructure: move setup section to END of Udemy curriculum
 - Add "How to take this course" lecture introducing the two-pass model
 - README "What's Next" section may need a rewrite tied to that restructure
 - ~~NB27 duplicate Option A/B fix~~ — done in `a62113c` (Option B is now Git server)
-- **Camera prose pass, NB14–18 first** (measured 2026-07-10: 88 lint findings — NB14: 17 LONG + 2 FAT + 1 BANNED, NB15: 13 LONG + 2 MULTI, NB16: 7 LONG + 3 MULTI, NB17: 12 LONG + 5 MULTI, NB18: 17 LONG + 8 MULTI + 1 BANNED). Run the ca protocol: Camera Shapes section (now in this repo's design_guidelines) + camera lint (spec: ca memory `reference_camera_lint.md`). The ca NB15–19 tightened cells are templates for the twin cells here (oa 18 short-vs-long ≈ ca 19 Part 3; oa 18 What-NOT-to-Store ≈ ca 19 Part 5; same-name notebooks 14/15/16 ≈ ca 16/17/18) — adapt SDK details, keep the shape. Content verified separately: oa 16's "Phase 5" exercise and oa 18's noisy-memory/stale-cleanup beats are real here (no ca-style outline drift).
 
 ### Important rules
 
