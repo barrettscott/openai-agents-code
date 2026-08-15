@@ -321,8 +321,9 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Add type constraints in the model: `confidence: float` ensures a number, not a string
 - Strengthen instructions to match the schema: "Rate from 1 to 5 as an integer"
 
-**Pydantic validation error?**
-- The agent returned something that doesn't fit the schema — check the raw error message
+**Structured output failed validation?**
+- Output validation during an agent run raises `ModelBehaviorError`, not Pydantic's `ValidationError`
+- Check the exception message for the field or rule that failed
 - Simplify the model first: fewer fields, simpler types, then add complexity
 - Use `Field(...)` constraints in the model: `confidence: Annotated[float, Field(ge=0.0, le=1.0)]`
 
