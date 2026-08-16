@@ -424,13 +424,19 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 09: File Search
 
 **File batch status is not `completed`?**
-- `upload_and_poll` waits automatically — if it returns, processing is done
-- If status is `failed`, check the file format (plain text and PDF work reliably)
+- `upload_and_poll` waits for a terminal state, which may be `completed`, `failed`, or `cancelled`
+- Require `status == "completed"` before querying the vector store
+- For `failed` or `cancelled`, inspect the file counts and verify the file format
 
 **Agent not finding information in the document?**
 - Confirm the vector store ID matches what was created
 - Try rephrasing the question — semantic search matches meaning, not exact keywords
-- Increase `max_num_results` to retrieve more chunks
+- Increasing `max_num_results` may retrieve more context but adds tokens and latency
+
+**No file citations attached?**
+- Confirm the File Search call completed successfully
+- Inspect `MessageOutputItem` annotations for `file_citation` entries
+- Use citation filenames as source evidence instead of inferring sources from prose
 
 **`FileSearchTool` import error?**
 - Verify: `from agents import Agent, FileSearchTool, Runner`
