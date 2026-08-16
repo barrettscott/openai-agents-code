@@ -462,19 +462,26 @@ Lesson-specific issues are listed here as the course is reviewed.
 **Agent not writing or running code?**
 - Add explicit instructions: "Always use code to answer this question"
 - For math tasks, phrase the request as a computation problem, not a knowledge question
+- Inspect the `code_interpreter_call` status and require `completed`
 
-**`result.final_output` is empty or incomplete?**
-- Code Interpreter responses can be longer — check `result.raw_responses` for full output
-- The agent may have produced a file output instead of text — ask it to summarize in text
+**Generated file is missing?**
+- Inspect message annotations for a `container_file_citation`
+- Use its container ID and file ID to download the artifact
+- Download needed files while the container is still active
 
 **Container session error?**
-- Container sessions are billed in 20-minute increments — a session may expire if the container has been idle
+- Containers expire after 20 minutes of inactivity
 - Re-run the agent cell to start a fresh session
+- Container sessions are billed separately from model tokens
 
 **Agent can't find the uploaded file?**
 - Confirm the file ID in `file_ids` matches the ID returned by `openai_client.files.create()`
 - Make sure you're using a current version of the openai package: `pip install --upgrade openai`
 - The file must be uploaded before the agent runs — check the setup cell completed successfully
+
+**Cleanup IDs disappeared after a kernel restart?**
+- Use the resource IDs printed during creation or open the API dashboard
+- Delete uploaded files and containers that the notebook no longer tracks
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
