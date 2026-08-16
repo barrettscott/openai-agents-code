@@ -42,7 +42,12 @@ In this notebook, we'll turn Python functions into tools your agent can call...
 ---
 ```
 
-**Setup rule (canonical — referenced from other sections):** Setup 1 uses a full Environment Check with the header `## ✅ Step 1: Environment Check (Diagnostic Only)`. All other notebooks use `## 🔧 Setup` by default. Use `## 🔧 Step 1: Setup` only when the notebook has a genuinely sequenced setup phase where numbering adds clarity.
+**Setup rule (canonical — referenced from other sections):** Setup 1 uses an Environment Check section with one of two accepted structures:
+
+- **Split-checks pattern (used in the current courses):** Separate sections for Python, required packages, and the Jupyter kernel, each with its own code cell
+- **Unified pattern:** One `## ✅ Step 1: Environment Check (Diagnostic Only)` section with one consolidated code cell
+
+Use whichever pattern best fits the course. Do not flag either structure. All other notebooks use `## 🔧 Setup` by default. Use `## 🔧 Step 1: Setup` only when the notebook has a genuinely sequenced setup phase where numbering adds clarity.
 
 **The Framing:** A short 🎯 The Problem framing cell to contextualize the lesson. Omit if an opening demo already provides sufficient context — the cell exists to motivate the lesson, not to satisfy a structural requirement. Aim for two short sentences — one to set up the problem, one to land the key insight. When the lesson requires a scenario to make the stakes concrete (e.g., walking through a specific failure mode step by step), the cell may run longer — use judgment. If it reads like a lecture, cut; if it earns its length, keep it.
 
@@ -127,7 +132,7 @@ When there is one exercise:
 
 ### [Title]
 
-*Covers: [concept] — [brief description]*
+*Covers: [concept], [brief description]*
 
 [One sentence description]
 ```
@@ -138,26 +143,26 @@ When there are multiple exercises:
 
 ### Exercise 1: [Title]
 
-*Covers: [concept] — [brief description]*
+*Covers: [concept], [brief description]*
 
 [One sentence description]
 
 ### Exercise 2: [Title]
 
-*Covers: [concept] — [brief description]*
+*Covers: [concept], [brief description]*
 
 [One sentence description]
 ```
 
-**Rule:** Every exercise must include a `*Covers:*` italic line immediately after the title, on its own line, followed by a blank line. This ties the exercise back to a specific concept or part from the notebook — essential for instructors reading on camera. Format: `*Covers: [concept or Part N] — [brief description]*`
+**Rule:** Every exercise must include a `*Covers:*` italic line immediately after the title, on its own line, followed by a blank line. This ties the exercise back to a specific concept or part from the notebook — essential for instructors reading on camera. Use `*Covers: [concept or Part N]*` when the concept stands alone, or `*Covers: [concept or Part N], [brief description]*` when added scope helps.
 
 **Rule:** Do not add a description sentence after `*Covers:*` unless it provides scenario context or constraints the `*Covers:*` line can't capture. A sentence that merely restates the `*Covers:*` line in different words should be cut.
 ```
 ❌ Cut — restates *Covers:*:
-*Covers: handoffs — routing between agents*
+*Covers: handoffs, routing between agents*
 Route a question to the right specialist using handoffs.
 ✅ Keep — adds scenario context:
-*Covers: handoffs — routing between agents*
+*Covers: handoffs, routing between agents*
 You're building a triage agent for a customer service team with billing and technical specialists.
 ```
 
@@ -216,8 +221,10 @@ Design exercise cells must still follow standard cell formatting: comment header
 - **Benefits/Problems lists:** 3 bullets max (exceptions: process flows, technical specs, checklists). This is the canonical home for the bullet-limit rule.
 - **Dividers:** Use `---` as a visual "scene cut" between major sections.
 - **Prose before bullets:** When a section combines a short prose statement with a bullet list, put the prose first as a single sentence that sets up the list. Do not follow the bullets with additional prose — anything after the bullets will be spoken on camera and doesn't need to appear in the cell.
-- Key Takeaways and Troubleshooting are student-read reference cells, not presented on camera — detail level is appropriate, length rules do not apply.
+- The final `## 🎯 Key Takeaways` reference cell and Troubleshooting are student-read rather than narrated on camera. Detail is appropriate there, and length guidance does not apply. A singular inline `### 💡 Key Takeaway` is presented prose and receives the same camera-readability review as other demo landing cells.
 - **Short sentences and line breaks in prose cells:** Do not write long prose sentences that wrap on camera. Break intro paragraphs and explanatory text into short sentences, each on its own line with a blank line between them. This applies to: the opening cell, section intro cells (Part headers with explanatory text below them), Why This Works cells, and any other markdown cell with explanatory prose. A good test: if a prose line exceeds ~80 characters, it will likely wrap on camera and should be split.
+
+  The ~80-character prose target and any code-width measurement are camera-readability guides, not absolute limits. Prefer shorter phrasing when it communicates as well. Keep a wider line when wrapping or rewriting would make the teaching less clear. Width checks identify review candidates; they do not determine the verdict.
 
   Instead of:
 
@@ -251,6 +258,7 @@ Design exercise cells must still follow standard cell formatting: comment header
 
 
 - **Key Takeaways formatting:** Each bold sub-header group in Key Takeaways gets a blank line before its bullets and two `<br>` tags after the last bullet in the group, before the next bold sub-header. The `<br>` tags must immediately follow the last bullet — no blank line before them.
+- **Key Takeaways bullet preference:** Prefer 3 bullets per bold sub-header group. Use 4 or 5 when the content is inherently enumerated and combining items would hide a meaningful distinction.
 
 ---
 
@@ -410,6 +418,8 @@ Default to one clear sentence explaining the core insight. Bullets are acceptabl
 
 **Key Takeaway pair structure:** The per-demo `### 💡 Key Takeaway` (singular) and end-of-lesson `## 🎯 Key Takeaways` (plural) form a deliberate pair. Each demo's one-sentence punchline should also be surfaced in the consolidated end-of-lesson section — either as a section header (when it names a value-prop) or as a bullet under the relevant sub-theme. Singular/plural carries the relationship: each demo gives *one* takeaway; the end-of-lesson section consolidates *all* of them.
 
+**Key Takeaway coverage audit:** Before finalizing `## 🎯 Key Takeaways`, map every lesson Part and standalone safety constraint to a bold read-aloud headline. Parts may share a headline, but every omission or merge must be deliberate. The headlines alone should communicate the lesson's core meaning; bullets are supporting reference detail that the instructor may leave unread on camera.
+
 **When to cut the explanation cell:** Cut it when the insight is already visible in the code above and will be spoken on camera. Keep it only when the design decision is non-obvious or when naming the principle helps students apply it elsewhere.
 
 ---
@@ -417,6 +427,8 @@ Default to one clear sentence explaining the core insight. Bullets are acceptabl
 ## Code Cell Structure
 
 Function definitions and test code must be separated with visual dividers.
+
+**Fail-closed evidence:** A demo must not pass when the evidence needed for its teaching claim is absent. Check the relevant `RunResult`, tool item, annotation, output model, or created artifact explicitly. A plausible final answer or model self-report is not proof that a tool ran, a citation was attached, or a side effect completed.
 
 **For cells with function + test:**
 
@@ -642,6 +654,8 @@ print(result.final_output)
 
 **Model constants:**
 
+Course policy: model IDs are pinned for reproducibility, not as a claim about the newest catalog. Model lineups change often, so teaching prose must not present the pinned IDs or a fixed tier list as the current catalog. Point students to current official model and pricing documentation when recency matters, and keep stable tier reasoning separate from specific IDs. Changing these constants is a course-wide edit, not a single-notebook cleanup.
+
 ```python
 MODEL = "gpt-5-mini"           # Course default — all standard agents
 REASONING_MODEL = "gpt-5"     # Orchestrators and complex reasoning tasks
@@ -748,6 +762,16 @@ Remove inline comments from Pydantic field definitions — field names should be
 
 ## Variable Naming
 
+Student-facing notebook code should use names students can understand at first glance on camera. Name a variable for its role in the lesson, not for its internal representation or the review process.
+
+- Prefer concrete lesson meaning
+- Use plural nouns for collections
+- Use `_path` for filesystem paths
+- Name workspace scope explicitly, such as `WORKSPACE` and `EXERCISE_WORKSPACE`
+- Prefer the name students will say while explaining the code
+
+Review names as part of every code-cell readability pass. If a name needs an explanation before a student can understand it, rename it.
+
 - `agent` = an Agent instance
 - `result` = the object returned by `Runner.run()` — type is `RunResult`
 - `output` = `result.final_output` when stored separately
@@ -788,12 +812,18 @@ Remove inline comments from Pydantic field definitions — field names should be
 
 **Neutral topics:** Use neutral topics for demos and exercises (weather, product lookups, scheduling). Avoid politically charged or controversial topics.
 
-**Cleanup cell placement (canonical):** There are two types of cleanup, and they go in different places:
+**Cleanup cell placement (canonical):** Clean a resource up after its last consumer.
 
-- **Demo cleanup** (removing temporary files or resetting demo state) — place before Practice Exercises so the workspace is clear before students start their work
-- **API resource cleanup** (deleting vector stores, uploaded files, or any API objects that incur ongoing cost) — place after Troubleshooting so students can complete Practice Exercises before teardown
+- **Demo cleanup** (removing persistent files, directories, databases, or session stores) usually goes before Practice Exercises. If an exercise reuses demo-created resources, place cleanup after the exercises instead.
+- **API resource cleanup** (deleting vector stores, uploaded files, or any API objects that incur ongoing cost) goes after Troubleshooting so students can complete Practice Exercises before teardown.
+- Do not add cleanup for ordinary in-memory lists, dictionaries, or counters. They disappear with the kernel, and clearing them adds ceremony rather than teaching.
+- Cleanup is runnable course behavior, not a student TODO.
 
 A markdown divider must separate any Cleanup code cell from whatever follows it.
+
+**Workspace location:** Prefer a visible, gitignored workspace beside the notebook when seeing and opening the files is part of the lesson. Recreate disposable demo workspaces during Setup so reruns start clean, and remove them after their last consumer. Use a system temporary directory when the lesson specifically needs an inside/outside boundary or truly disposable external storage, and print its path so students can find it.
+
+Neither location is a sandbox. Keep the available tool surface narrow, use explicit paths, and verify important writes from artifacts or structured run evidence rather than model self-report.
 
 **Tracing cells:** Teach tracing at the concept level. Tell students that runs are automatically recorded and can be inspected to see input, instructions, and output together. Avoid step-by-step UI navigation instructions — interface locations change, create support noise, and distract from the lesson. One or two concept-level sentences is the right weight for any notebook that is not dedicated to tracing (Lesson 23 is the exception).
 
@@ -812,7 +842,11 @@ Security notes should appear the **first time** a given risk pattern appears in 
 
 Additionally, reviewers should strongly consider a security note when user-supplied input is passed into agent instructions or tool parameters without clear constraints or validation — but only on the first notebook where this pattern appears.
 
-**Security note format:** A standalone markdown cell with a ⚠️ prefix, placed immediately after the relevant demo cell or its adjacent Why This Works cell:
+**Trusted-state boundary:** Security-relevant identity, ownership, amount, price, quota, and role must come from authenticated application state, authoritative backend records, or application code, never from model-supplied tool arguments. Prefer tools that accept identifiers and perform authoritative lookups. Unknown and cross-owner requests fail closed. Prove important boundaries with deterministic offline cases when possible.
+
+**Security note format:** A standalone markdown cell with a ⚠️ prefix, placed immediately after the relevant demo cell or its adjacent Why This Works cell. For student exercises, place the note immediately before the exercise header so students see it before writing the code.
+
+Exception: in web-tool notebooks, a security note may appear before the first demo so students see the risk before retrieving untrusted content. Put cost disclosure in Setup or alongside the warning so students see it before incurring hosted-search cost.
 
 ```
 ⚠️ **Security note:** [One sentence describing the risk and how to treat the input.]
