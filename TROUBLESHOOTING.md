@@ -401,8 +401,10 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Ask a clearly time-sensitive question to force a search
 
 **No citations in the response?**
-- Citations appear automatically — check `result.final_output` directly
-- Add "cite your sources" to the agent's instructions to encourage them
+- Confirm the run contains a `web_search_call`
+- Inspect URL-citation annotations on message output items
+- Render cited sources visibly and clickably
+- Use "cite your sources" to shape the prose, not as proof that citations were attached
 
 **Location not affecting results?**
 - `user_location` biases results but doesn't guarantee local results
