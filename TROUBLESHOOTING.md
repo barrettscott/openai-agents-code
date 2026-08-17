@@ -589,7 +589,7 @@ Lesson-specific issues are listed here as the course is reviewed.
 **One agent fails and the whole gather fails?**
 - By default `asyncio.gather()` raises on first exception
 - Use `asyncio.gather(..., return_exceptions=True)` to collect errors without failing
-- Check each result: `if isinstance(result, Exception): ...`
+- Use the lesson's `run_failed(result)` helper to include ordinary exceptions and task cancellation
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
