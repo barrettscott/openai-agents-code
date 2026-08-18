@@ -601,17 +601,17 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 15: Debate and Critique
 
 **Critic not finding real issues?**
-- Strengthen critic instructions — be explicit about what to look for
-- Add "Be direct and specific. Do not be polite about weaknesses."
-- Try asking it to find exactly N problems
+- Test the Critic on a deliberately weak draft and a strong control
+- Make the approval criteria task-specific
+- Ask for up to N actionable issues, or approval when none remain
 
 **Revised draft not improving?**
 - Check that the full critique is included in the revision prompt
 - Add "Address every point in the critique" to the writer's revision instructions
 
-**Loop runs more iterations than expected?**
-- Check that `quality_threshold` is reachable — a threshold of 9 or 10 may never be met
-- Lower to 7 or 8 for more practical stopping behavior
+**Loop reaches the round cap?**
+- Check that the approval criteria are specific and the issues are actionable
+- Treat the cap as an honest result, not a reason to loosen the criteria
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
