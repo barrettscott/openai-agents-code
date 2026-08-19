@@ -743,10 +743,16 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Run `pip install chromadb` and restart your kernel
 
 **Wrong memory being retrieved?**
-- Semantic search is probabilistic — try increasing `n_results` or rephrasing your queries to be more descriptive
+- Semantic ranking is approximate, so the nearest record may not be relevant
+- Inspect the returned records and distances, and increase `n_results` to see more ranking context
+- Make stored text and queries more descriptive, then calibrate any distance threshold on representative data
 
-**Database growing too large?**
-- In-memory clients clear on restart — for persistent storage use `chromadb.PersistentClient(path="./path")`
+**Memories disappear after restart?**
+- Use `chromadb.PersistentClient(path="./path")` with the same stable path
+
+**Memory store growing too large?**
+- Apply an application retention rule and delete verified stale records with `collection.delete(ids=[...])`
+- `n_results` limits what a query returns, not what the collection stores
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
