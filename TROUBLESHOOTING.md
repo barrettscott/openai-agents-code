@@ -721,7 +721,9 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Avoid paths with spaces or special characters
 
 **Memory growing too large?**
-- Apply the summarize → clear → store pattern every N turns
+- Create and inspect or test the candidate summary before clearing history
+- Keep the source history when summary validation fails
+- Clear and store only after the summary passes its checks
 - `len(await session.get_items())` gives you the current count
 
 **Still having issues?**
