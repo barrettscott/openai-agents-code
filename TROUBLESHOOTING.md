@@ -694,6 +694,11 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Check the `.sqlite` file exists in the expected location
 - The session ID is case-sensitive
 
+**My last user message appears twice after retrying?**
+- A failed run may store its input before the model error occurs
+- Inspect the last items with `await session.get_items()` before retrying
+- If the final item is the verified failed user turn, remove it with `await session.pop_item()` or reconcile it in application code
+
 **Session growing too large over many turns?**
 - Use `clear_session()` to reset when starting a new topic
 - For long conversations, see Lesson 18 for summarization strategies
