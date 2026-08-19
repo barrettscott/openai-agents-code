@@ -623,31 +623,58 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 16: Capstone 2 — Multi-Agent Research Team
 
 **Pipeline takes longer than expected?**
-- Web search + code interpreter adds latency — 30-60 seconds is normal for this pipeline
-- Watch the phase timing printouts to identify which step is slowest
+- Web Search and Code Interpreter add latency; a few minutes can be normal
+- Watch the monotonic phase timings to identify the slowest boundary
+- Run each paid phase once unless you are investigating a recorded failure
 
-**One phase fails and breaks the whole pipeline?**
-- Check the error message — it will point to which agent failed
-- Wrap individual `Runner.run()` calls in try/except for graceful degradation
-- For the parallel phase, use `asyncio.gather(..., return_exceptions=True)`
+**A Phase 1 specialist is unavailable?**
+- Read its separate tool, text, and citation rows
+- A healthy Researcher needs completed Web Search, usable text, and URL citations
+- A healthy Analyst also needs completed Code Interpreter
+- If both paths are unavailable, later paid phases are skipped
+- Use the printed exception type and run trace for diagnosis; do not expose provider messages
+
+**The report hides a partial failure?**
+- Confirm the exact bracketed unavailable marker reached Writer
+- Writer and revision must preserve that marker verbatim
+- Tighten the relevant instruction instead of rerunning for a favorable answer
+
+**Sources are missing below the report?**
+- `web_search_call` completion proves search occurred, not which sources support the text
+- Inspect `url_citation` annotations on every `MessageOutputItem`
+- Both healthy specialist paths need at least one attributable URL citation
+- Render the structured ledger as visible clickable links
 
 **Writer produces a poor report?**
-- Check that research_findings and analysis_findings are non-empty before passing them
-- Strengthen writer instructions with explicit section requirements
+- Confirm the evidence packet contains usable specialist text and the source ledger
+- Confirm Writer received the research question, both evidence sections, and marker rules
+- Keep the full report for later phases and truncate display only
 
 **Critic is too lenient or too harsh?**
-- Adjust critic instructions — specify exactly what types of issues to look for
-- Add "Be specific: quote the exact claim you are challenging"
+- Adjust the Critic instructions to name the exact gaps it should inspect
+- Keep Critic and Judge separate: Critic guides revision, Judge returns evaluation signals
+
+**Judge calibration fails?**
+- Verify each fixed report satisfies its own evidence contract before any Judge call
+- Gate on categorical fields such as unsupported claims and limitation disclosure
+- Treat groundedness and clarity scores as diagnostics, not pass thresholds
+- Do not rerun unchanged cases to obtain preferred scores
 
 **Unexpected costs?**
-- Web search charges per query — the researcher may make multiple searches per run
-- Code interpreter charges per container — auto mode may reuse an active container or create a new one
-- Multiple model calls across phases add up — keep tool outputs lean
+- The successful main path starts ten agent runs
+- Web Search activity inside a run can vary and has separate tool charges
+- Auto Code Interpreter mode may create a billable container
+- The Fact Checker exercise adds one agent run plus Web Search activity
+
+**Container cleanup reports a failure?**
+- Retry the cleanup cell; failed IDs remain tracked
+- After a kernel restart, use the printed container IDs or API dashboard
+- An empty tracking list after restart is not proof that every container was deleted
 
 **Still having issues?**
-- Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
+- Share the phase name, type-only failure label, gate rows, and run trace
 - Re-watch the lecture for this lesson
-- Post to the Q&A with your error message and output
+- Post to the Q&A with the same cause-neutral evidence
 
 ---
 
