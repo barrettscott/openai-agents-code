@@ -764,7 +764,9 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 20: Guardrails
 
 **Guardrail never triggers even when it should?**
-- Check that the guardrail function is in `input_guardrails=[InputGuardrail(...)]` on the Agent
+- Attach an `@input_guardrail` result directly: `input_guardrails=[my_guardrail]`
+- Wrap only a raw undecorated callback in `InputGuardrail(...)`
+- To change timing without mutating a decorated guardrail, wrap `my_guardrail.guardrail_function` and set `run_in_parallel=False`
 - Verify `tripwire_triggered=True` is being returned in the blocking case
 - Print the guardrail function output to debug
 
@@ -777,8 +779,8 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Consider switching to a rule-based guardrail if the check can be expressed simply
 
 **Output guardrail not firing?**
-- Output guardrails only run on the last agent in a run — check you're not using handoffs
-- Verify `output_guardrails=[OutputGuardrail(...)]` is on the correct agent
+- Attach an `@output_guardrail` result directly: `output_guardrails=[my_guardrail]`
+- Output guardrails run on the final agent in a run, so attach the relevant guardrail there after a handoff
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
