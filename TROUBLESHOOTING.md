@@ -824,9 +824,10 @@ Lesson-specific issues are listed here as the course is reviewed.
 - Call `to_state()` only after confirming `result.interruptions` is non-empty
 - Check `result.interruptions` first, then call `result.to_state()` and inspect pending approvals with `state.get_interruptions()`
 
-**Agent crashes after rejection instead of adapting?**
-- Always provide a `rejection_message` parameter to `state.reject()` — it gives the agent context
-- Strengthen agent instructions to handle rejection gracefully
+**Agent requests approval again after rejection?**
+- Rejection returns a tool result to the model, but it does not guarantee adaptation
+- `rejection_message=` is optional; use it when the model needs a specific reason
+- Handle new interruptions in a bounded decision loop and review each call independently
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
