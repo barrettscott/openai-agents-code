@@ -839,24 +839,26 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 23: Tracing and Observability
 
 **Traces not showing up in the dashboard?**
-- Confirm your API key is loaded and valid — tracing requires authentication
-- Wait 15–30 seconds — traces appear with a short delay
-- Check that you're logged into the correct OpenAI account at platform.openai.com
+- Confirm your API key is loaded and valid because trace export requires authentication
+- Export is batched, so wait briefly and refresh the dashboard
+- Check that tracing was not disabled in `RunConfig` or the environment
+- Confirm that you are viewing the correct OpenAI account
 
 **Can't find a specific trace?**
-- Filter by agent name in the dashboard search bar
-- Add a unique phrase to your query input to make it easy to identify
-- Traces are sorted newest-first — your run should be at the top
+- Search for the descriptive `workflow_name` set in `RunConfig`
+- Keep controlled comparison inputs unchanged
+- Start with the newest matching workflow name after a rerun
 
 **Trace shows fewer tool calls than expected?**
-- The agent may have decided a tool wasn't needed — read the LLM span to see its reasoning
-- Strengthen instructions: "Always call X before answering questions about Y"
-- Check that all tools are in the agent's `tools=[]` list
+- Read the model span's input and response to see what the model received and returned
+- A trace does not expose the model's hidden reasoning
+- Strengthen instructions when a particular tool path is required
+- Confirm every expected tool is present in the agent's `tools=[]` list
 
 **Token counts look unexpectedly high?**
-- Large tool outputs get included in the next model call's context
-- Check what each tool returned in the trace — a verbose tool output can balloon token usage
-- Consider truncating tool output for long results
+- Large tool outputs can enter the next model request's context
+- Inspect each tool output before changing the tool
+- Reduce or summarize output only when omitted data is not required for the answer
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
