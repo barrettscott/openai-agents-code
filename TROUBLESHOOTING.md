@@ -897,12 +897,13 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 **Node.js / npx not found?**
 - Install Node.js LTS from https://nodejs.org
-- Restart JupyterLab after installation
+- Restart the notebook kernel in VS Code after installation
 - Verify with `node --version` in a terminal
 
 **MCP server takes a long time to start?**
-- First run downloads the package via `npx -y` — this takes 15-30 seconds
-- Subsequent runs use the cached package and start in under 2 seconds
+- The first `npx -y` start may download the package
+- Download time depends on the connection
+- Later starts are usually faster when the package is cached
 
 **Agent not using MCP tools?**
 - Confirm `mcp_servers=[server]` is set on the agent
@@ -911,10 +912,11 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 **`MCPServerStdio` import error?**
 - Verify: `from agents.mcp import MCPServerStdio`
-- Run `pip install --upgrade openai-agents` and restart JupyterLab
+- Reinstall from the course requirements file, then restart the kernel
+- The file allows compatible releases newer than the reviewed 0.13.0 environment
 
 **Permission error reading/writing files?**
-- The filesystem server only has access to the directory you pass it
+- The trusted demo server is scoped to the allowed directory passed to it
 - Use an absolute path: `str(workspace.resolve())`
 - Check directory permissions
 
