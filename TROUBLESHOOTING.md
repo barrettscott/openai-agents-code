@@ -882,8 +882,9 @@ Lesson-specific issues are listed here as the course is reviewed.
 - The agent must actually decide to call the tool — check that the order exists and is eligible
 
 **`input()` prompt not appearing?**
-- Click the cell output area in JupyterLab to activate the input field
-- Or set `auto_approve=True` to auto-approve validated low-value refunds for testing (larger refunds still prompt)
+- In VS Code, look for the input box opened by the active notebook run
+- `auto_approve=True` is already the default
+- Refunds at or below USD 100 skip the prompt. Use ORD-002 for a controlled low-value test
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
