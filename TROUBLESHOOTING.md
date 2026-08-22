@@ -1083,16 +1083,17 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 30: Deploying with Gradio
 
 **`ModuleNotFoundError: No module named 'gradio'`?**
-- Run `pip install gradio` in your active environment
-- Add `gradio` to `requirements.txt` before deploying
+- Run `pip install gradio==6.20.0` in your active course environment
+- On Spaces, keep `sdk_version: 6.20.0` in the README YAML. This lesson's `requirements.txt` intentionally omits Gradio because the Space runtime supplies it
 
 **App launches but streaming doesn't work — full response appears at once?**
 - Confirm your chat function uses `yield`, not `return`
 - Confirm `Runner.run_streamed()` is called, not `Runner.run()`
-- Check that `flush=True` is not needed — Gradio handles buffering
+- Confirm the callback accumulates text deltas and yields the growing string
+- After the stream completes, yield `result.final_output`. Treat an empty final output as a visible failure
 
 **Hugging Face Space shows `OPENAI_API_KEY` error?**
-- Add the key in Space Settings → Repository secrets, not as a file
+- Add the key under Settings → Variables and secrets, not as a file
 - The secret name must match exactly: `OPENAI_API_KEY`
 - Restart the Space after adding the secret
 
