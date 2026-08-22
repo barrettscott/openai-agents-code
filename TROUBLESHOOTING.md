@@ -930,20 +930,34 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 26: Real-World MCP Servers
 
 **`uvx` not found?**
-- Run: `pip install uv` in your terminal
-- Restart JupyterLab and re-run the prerequisite check cell
+- From the repository root, reinstall this course's requirements in the
+  selected environment: `python -m pip install -r requirements.txt`
+- Restart the selected VS Code kernel and re-run the prerequisite cell
+- The notebook checks `PATH` first, then resolves `uvx` beside the selected
+  kernel's Python executable
 
 **Web fetch returns empty or garbled content?**
 - Some sites block automated requests — try a different URL
 - Documentation sites (docs.python.org, openai.com) tend to work reliably
 
+**`McpError: Connection closed` starting web fetch?**
+- `mcp-server-fetch 2026.7.10` requires the MCP 1.x API in its isolated
+  `uvx` environment
+- Pass `--with mcp==1.28.1` before `mcp-server-fetch@2026.7.10` in the
+  server's argument list
+- This pins the server's dependency, not the selected notebook environment
+
 **`async with` syntax error combining two servers?**
 - Python 3.10+ supports `async with (server1, server2):` with parentheses
 - For earlier Python, use nested `async with` blocks instead
 
+**`Duplicate tool names found across MCP servers`?**
+- Run `list_tools()` on both servers and identify the overlapping names
+- Filter the overlap from one server, or keep those servers on separate agents
+
 **`create_static_tool_filter` import error?**
 - Verify: `from agents.mcp import MCPServerStdio, create_static_tool_filter`
-- Run `pip install --upgrade openai-agents` and restart JupyterLab
+- Reinstall from `requirements.txt`, then restart the selected VS Code kernel
 
 **Permission error reading/writing files?**
 - The filesystem server only has access to the directory you pass it
