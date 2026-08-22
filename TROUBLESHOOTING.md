@@ -1022,25 +1022,28 @@ Lesson-specific issues are listed here as the course is reviewed.
 
 ### Lesson 28: Project Structure and CLI
 
-**`RuntimeError: no running event loop` or similar async error?**
-- You're calling an async function without `asyncio.run()` — wrap your entry point: `asyncio.run(main())`
-- In scripts, never use `await` at the top level — that only works in JupyterLab
+**`SyntaxError: 'await' outside function`, or the script does nothing?**
+- Put awaited work inside `async def main()`, then call `asyncio.run(main())`
+- Notebook kernels support top-level `await`. Ordinary `.py` files do not
+- Calling `main()` alone creates a coroutine. It does not run it
 
 **`ModuleNotFoundError: No module named 'agents'`?**
 - Confirm your virtual environment is active: `source .venv/bin/activate` (Mac/Linux) or `.\.venv\Scripts\Activate.ps1` (Windows)
 - Run `pip install openai-agents` inside the active environment
 
-**`ImportError` when importing from `config` or `tools`?**
-- Run `main.py` from the project root directory, not from a subdirectory
-- Python resolves imports relative to where you run the script from
+**`ModuleNotFoundError` or `ImportError` for `config`, `tools`, or `agent`?**
+- The flat template expects `main.py`, `agent.py`, `config.py`, and `tools.py` in one directory
+- Run the script file directly, such as `python path/to/main.py`. Python adds that script's directory to the import path
+- If a tool name differs, use the same name in `tools.py`, the `agent.py` import, and the `tools=[...]` list. A half-renamed tool raises `ImportError` or `NameError`
 
 **`.env` not loading — API key is `None`?**
 - Check the path in `load_dotenv()` — use `Path(__file__).parent / ".env"` to make it relative to the file
 - Confirm `.env` exists and contains `OPENAI_API_KEY=sk-...` with no spaces around `=`
 
-**Streaming shows no output?**
-- Confirm you're iterating `async for event in result.stream_events()` — not `await`ing the result
-- Check that `flush=True` is set on `print()` calls — buffering can delay terminal output
+**Streaming raises `TypeError` or shows no output?**
+- `Runner.run_streamed()` returns a streaming result. Do not `await` it
+- Once called, the run starts immediately. Consume `async for event in result.stream_events()` to completion
+- Print `ResponseTextDeltaEvent.delta` with `flush=True`
 
 **Still having issues?**
 - Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
