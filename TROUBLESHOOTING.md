@@ -974,32 +974,49 @@ Lesson-specific issues are listed here as the course is reviewed.
 ### Lesson 27: Capstone 4 — MCP Assistant
 
 **`require_approval` not pausing the run?**
-- Check that the tool name exactly matches what the server exposes
-- List the server's tools first to confirm the exact names
-- Try `require_approval="always"` to require approval for every tool call
+- Check that the tool name exactly matches what the server exposes.
+- List the tools on the exact server instance before starting the agent.
+- Temporarily try `require_approval="always"` as a diagnostic. Restore the
+  named policy afterward so read-only tools do not pause.
 
-**Time server not starting?**
-- Verify `uvx` is installed: `pip install uv`
-- First run downloads the package — wait 15-30 seconds
-- Test manually: `uvx mcp-server-time` in a terminal
+**`McpError: Connection closed` or a Python MCP server not starting?**
+- Run the prerequisite cell in the selected kernel. An installed `uvx` can
+  still be absent from that kernel's inherited `PATH`.
+- Test the resolved `uvx` executable with the same compatibility arguments as
+  the notebook: `--with mcp==1.28.1` followed by the pinned server package.
+- The `1.28.1` value is this course's reproducibility pin. The important
+  compatibility boundary is MCP 1.x because MCP 2.0 renamed an exception used
+  by these server versions.
+- First startup may download a package. Diagnose the command and server output
+  instead of relying on a fixed wait time.
 
 **Three servers taking too long to start?**
-- First run downloads packages — subsequent runs are much faster
-- All three start in parallel via the `async with` block
+- The context managers enter one after another, not in parallel.
+- Test each pinned command separately before combining all three servers.
+- Cached packages often start faster on later runs, but startup time depends
+  on the local environment.
 
 **Agent using only one server instead of all three?**
-- Strengthen instructions: explicitly describe all three servers and when to use each
-- Design the task to specifically require all three capabilities
-- Check traces in the OpenAI dashboard to see which tools were called
+- Discover the tools on all three actual server instances before the run.
+- Describe each capability in the instructions and design a task that needs
+  each one.
+- Treat requested tool names as routing evidence, not proof of a successful
+  result or durable side effect.
+
+**Repeated approvals end with `MaxTurnsExceeded`?**
+- Resumed runs share the SDK turn budget. Repeated requests can exhaust it.
+- Keep an application-owned decision log and reject repeated requests for the
+  same target instead of prompting again.
 
 **`REASONING_MODEL` is slow or expensive?**
-- For testing, switch to `MODEL` temporarily
-- Keep `REASONING_MODEL` for the final demo when recording
+- For testing, switch to `MODEL` temporarily.
+- Compare the behavior on your task before choosing the final configuration.
 
 **Still having issues?**
-- Copy any error message and paste it into Claude, ChatGPT, Gemini, or Grok — they're great at debugging
-- Re-watch the lecture for this module
-- Post to the Q&A with your error message and output
+- Copy the exact error, resolved command, and server catalog into your
+  debugging notes.
+- Re-watch the lecture for this module.
+- Post to the Q&A with the error message and output.
 
 ---
 
