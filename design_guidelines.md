@@ -6,17 +6,31 @@
 
 ## Highest-Priority Review Rules
 
-When reviewing a notebook, apply these in order. A notebook that passes these four categories is in good shape even if it has minor style inconsistencies elsewhere in this document.
+The primary product is a screen-recorded lesson. Apply these priorities in
+order. A notebook that passes them is in good shape even if it has minor style
+inconsistencies elsewhere in this document.
 
 1. **Correctness and honesty.** Teaching patterns actually work. No claims the agent does something it doesn't. UI history is not presented as agent memory unless the notebook explicitly addresses the distinction. Security notes are present where required. Permission modes match the lesson's safety level.
 
-2. **Section order.** End-of-notebook structure follows the standard order: Practice Exercises → Key Takeaways → Next Step → Troubleshooting → Course Complete (final notebook only). Course Complete, when present, always comes after Troubleshooting.
+2. **Essential teaching meaning.** Preserve the conditions, boundaries, causal links, examples, and consequences students need to understand the lesson. Shorter is not better when it makes the instructor supply a missing technical premise.
 
-3. **Code hygiene.** Code runs cleanly. Imports match actual usage. No hardcoded model strings outside the constants block. Async handling is correct. Instructions of 2+ lines are assigned to a variable before the Agent() constructor.
+3. **Camera clarity.** The instructor's narration is part of the lesson. Markdown provides short visual anchors rather than a presenter script or standalone documentation. Code uses readable names, direct flow, and one visible teaching job per cell. No em dashes or semicolons in course content (markdown or any string literal shown on camera). Use a colon, comma, period, or parentheses instead.
 
-4. **Teaching clarity.** Markdown is for student reading, not on-camera narration — this is the most common failure mode and the first thing to cut. One main idea per markdown cell. No wall-of-text. Benefits/problems lists kept to 3 bullets max (process flows, specs, and checklists exempt). No em dashes or semicolons in course content (markdown or any string literal shown on camera). Use a colon, comma, period, or parentheses instead.
+4. **Minimal teaching code with proportional safety.** Keep only code that teaches the owned concept, prevents a reachable lesson-relevant failure, or proves the central claim. Do not add production completeness, defensive ceremony, or review scaffolding merely because it would make the example more robust.
 
-Below this section, rules are organized by topic. Formatting preferences (emoji usage, specific HTML wrappers, table formatting) are lower priority than the four categories above.
+5. **Offline reference value as a tie-breaker.** Preserve concise Key Takeaways bullets and Troubleshooting detail for students reading later, but do not expand the presented surface primarily for offline completeness.
+
+Section order, code hygiene, and formatting still matter. Apply their detailed
+rules below after the priorities above. Correctness includes clean imports,
+valid async handling, and executable code.
+
+**Review evidence integrity:** Before a review begins, hash the target and
+compare it with the committed version. If it is dirty, classify that delta as
+intentional before treating it as the baseline. Freeze the target while
+reviewer responses are outstanding, then verify the target hash again
+immediately before each verdict. A changed hash invalidates that review stage.
+
+Below this section, rules are organized by topic. Formatting preferences (emoji usage, specific HTML wrappers, table formatting) are lower priority than the five priorities above.
 
 ---
 
@@ -217,11 +231,11 @@ Design exercise cells must still follow standard cell formatting: comment header
 ## Markdown Pacing Rules
 
 - One main idea per markdown cell. Don't wall-of-text.
-- No "on-camera narration." Keep markdown for student reading, not presenter scripts.
+- **Camera anchors, not scripts:** Keep markdown short enough to explain naturally from the screen. The instructor supplies connective narration. Do not turn cells into presenter scripts or standalone documentation.
 - **Benefits/Problems lists:** 3 bullets max (exceptions: process flows, technical specs, checklists). This is the canonical home for the bullet-limit rule.
 - **Dividers:** Use `---` as a visual "scene cut" between major sections.
 - **Prose before bullets:** When a section combines a short prose statement with a bullet list, put the prose first as a single sentence that sets up the list. Do not follow the bullets with additional prose — anything after the bullets will be spoken on camera and doesn't need to appear in the cell.
-- The final `## 🎯 Key Takeaways` reference cell and Troubleshooting are student-read rather than narrated on camera. Detail is appropriate there, and length guidance does not apply. A singular inline `### 💡 Key Takeaway` is presented prose and receives the same camera-readability review as other demo landing cells.
+- **Two-layer Key Takeaways:** The bold headings in `## 🎯 Key Takeaways` are the spoken camera layer and must communicate the lesson without their bullets. The bullets remain as concise offline support and are not normally read aloud. Troubleshooting is offline reference content. A singular inline `### 💡 Key Takeaway` is presented prose and receives the same camera-readability review as other demo landing cells.
 - **Short sentences and line breaks in prose cells:** Do not write long prose sentences that wrap on camera. Break intro paragraphs and explanatory text into short sentences, each on its own line with a blank line between them. This applies to: the opening cell, section intro cells (Part headers with explanatory text below them), Why This Works cells, and any other markdown cell with explanatory prose. A good test: if a prose line exceeds ~80 characters, it will likely wrap on camera and should be split.
 
   The ~80-character prose target and any code-width measurement are camera-readability guides, not absolute limits. Prefer shorter phrasing when it communicates as well. Keep a wider line when wrapping or rewriting would make the teaching less clear. Width checks identify review candidates; they do not determine the verdict.
@@ -414,9 +428,9 @@ Long notebooks often turn into long videos that weaken pacing and lose student a
 
 Default to one clear sentence explaining the core insight. Bullets are acceptable when the insight has 3 or fewer parallel, discrete items that benefit from visual separation on camera — avoid bullets when the idea flows naturally as prose.
 
-**The Key Takeaway quality test:** A Key Takeaway cell is one sentence the instructor would highlight on screen and read aloud as a satisfying takeaway. Restatement of the demo, procedural advice, and setup-flavored sentences fail this test — rewrite as a quotable principle or cut the cell. If the demo doesn't yield a quotable principle, the cell shouldn't exist. The narrator typically pauses 3–5 seconds while viewers read the on-screen text rather than reading it aloud verbatim.
+**The Key Takeaway quality test:** A Key Takeaway cell is one sentence the instructor can highlight on screen as a satisfying takeaway. Restatement of the demo, procedural advice, and setup-flavored sentences fail this test: rewrite as a quotable principle or cut the cell. If the demo doesn't yield a quotable principle, the cell shouldn't exist. The instructor may read it aloud or pause while viewers read it. Either way, it must earn presented space.
 
-**Key Takeaway pair structure:** The per-demo `### 💡 Key Takeaway` (singular) and end-of-lesson `## 🎯 Key Takeaways` (plural) form a deliberate pair. Each demo's one-sentence punchline should also be surfaced in the consolidated end-of-lesson section — either as a section header (when it names a value-prop) or as a bullet under the relevant sub-theme. Singular/plural carries the relationship: each demo gives *one* takeaway; the end-of-lesson section consolidates *all* of them.
+**Key Takeaway pair structure:** The per-demo `### 💡 Key Takeaway` (singular) and end-of-lesson `## 🎯 Key Takeaways` (plural) require semantic coverage, not repeated wording. Each demo's core insight must be represented in the consolidated section, either as a bold heading or as a bullet under the relevant theme. If an inline takeaway would repeat a bold heading the instructor reads aloud, keep one spoken home or give the two cells distinct teaching jobs. Usually keep the consolidated heading and cut the duplicate inline cell. Keep both only when the inline cell lands the specific demo and the final heading synthesizes a broader principle.
 
 **Key Takeaway coverage audit:** Before finalizing `## 🎯 Key Takeaways`, map every lesson Part and standalone safety constraint to a bold read-aloud headline. Parts may share a headline, but every omission or merge must be deliberate. The headlines alone should communicate the lesson's core meaning; bullets are supporting reference detail that the instructor may leave unread on camera.
 
@@ -427,6 +441,13 @@ Default to one clear sentence explaining the core insight. Bullets are acceptabl
 ## Code Cell Structure
 
 Function definitions and test code must be separated with visual dividers.
+
+**Teaching-code proportionality:** Every visible helper, guard, branch,
+validation step, exception handler, cleanup action, state reset, and evidence
+check must earn its camera space. Keep it when it prevents a reachable
+lesson-relevant failure or proves a claim that could otherwise look successful
+when it failed. Move review harnesses and production hardening outside the
+notebook. Prefer the smallest direct proof over a general framework.
 
 **Fail-closed evidence:** A demo must not pass when the evidence needed for its teaching claim is absent. Check the relevant `RunResult`, tool item, annotation, output model, or created artifact explicitly. A plausible final answer or model self-report is not proof that a tool ran, a citation was attached, or a side effect completed.
 
@@ -775,7 +796,10 @@ Review names as part of every code-cell readability pass. If a name needs an exp
 - `agent` = an Agent instance
 - `result` = the object returned by `Runner.run()` — type is `RunResult`
 - `output` = `result.final_output` when stored separately
-- `message` = a single string input to the agent
+- `question` = a user input framed as a question
+- `request` = a user input asking the agent to take an action
+- `prompt` = use when the lesson is specifically teaching prompt text
+- `message` = use only when the lesson is teaching messages or conversation turns
 - **Multi-step exception:** In capstone pipelines, use specific names: `research_result`, `analysis_result`, `synthesis_result`
 
 ---
