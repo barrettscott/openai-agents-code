@@ -41,7 +41,11 @@ govern notebook content; the handoff governs current state and workflow.
   only discrepancies.
 - Deterministic locators surface candidates; they never decide findings.
   Width, similarity, unused-name, failure-voice, banner, and exercise-title
-  counts require a teaching judgment tied to the visible artifact.
+  counts require a teaching judgment tied to the visible artifact. The banner
+  locator should specifically surface a trailing success print that follows
+  model output when an earlier same-cell deterministic predicate already
+  printed and raises on failure; this is a candidate for redundant or
+  misleading status, not an automatic deletion.
 - Inspect the complete continuous 1440px render directly for camera pacing,
   density, wrapping, and visual boundaries. Treat PDF pagination as an offline
   stress test, not the camera target. This visual inspection is not delegated
@@ -73,11 +77,22 @@ govern notebook content; the handoff governs current state and workflow.
   immediate out-of-order path invited by the surface. Report the resulting
   state or display consequence. A static unused-name or tautology result is a
   locator, not evidence that the line should be deleted.
+- Before filing replacement prose, stage 1 must trace the proposed sentence
+  against the actual cell sequence it summarizes. Verify who reads, writes,
+  receives, or controls each value and when. A smoother or less repetitive
+  sentence is not an improvement if the demonstrated sequence makes it false
+  or ambiguous.
 - Reconcile the two independent reports before editing. Run one shared focused
-  challenge only when the reconciliation rejects or materially rewrites a
-  finding, changes executable/model-visible behavior, cuts a `READ` surface,
-  or introduces a third unreviewed implementation. Both reviewers receive the
-  same challenge prompt.
+  challenge when the reconciliation materially rewrites a reviewer proposal,
+  changes executable/model-visible behavior, changes or cuts a `READ` surface,
+  or introduces a third unreviewed implementation. Do not trigger a challenge
+  merely because reconciliation rejects a finding or accepts a mechanical
+  deletion exactly as proposed; keeping the baseline introduces no new
+  artifact to test. Both reviewers receive the same challenge prompt.
+- When reconciliation introduces a form neither reviewer proposed, label it
+  explicitly as `THIRD IMPLEMENTATION`, show it beside the baseline and both
+  reviewer forms, and make that exact form a primary challenge target. The
+  number of disputed items is not a challenge trigger.
 - Apply with `nbformat`, verify the exact on-disk delta independently, render
   the final artifact, and inspect it before requesting a commit.
 
