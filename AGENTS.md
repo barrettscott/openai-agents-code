@@ -49,6 +49,23 @@ govern notebook content; the handoff governs current state and workflow.
   that materially apply. Reviewers test whether the prior ruling has the same
   teaching job in the current notebook; they do not re-prove the underlying
   mechanism without contrary evidence or an environment change.
+- Treat every reviewer finding as a hypothesis, not a recommendation to adopt.
+  Agreement between reviewers, a successful probe, corpus consistency, and a
+  shorter replacement are evidence inputs; none is a verdict by itself.
+- Reconciliation begins with a presumption to keep the pinned baseline. Before
+  accepting each finding, write the strongest concrete case for leaving the
+  source unchanged. Accept the change only when it clears all three burdens:
+  (1) name the exact correctness, outline, spoken-teaching, or camera contract
+  the baseline fails; (2) show the failure or cost in the demonstrated lesson,
+  recorded surface, or an immediate learner variation invited by that surface;
+  and (3) show that the exact replacement improves that contract without a
+  larger teaching, state-visibility, or execution-order cost.
+- Classify every reconciled item as `ACCEPT`, `CHALLENGE`, or `REJECT`, with a
+  one-sentence baseline defense beside it. A technically dead assignment is
+  not automatically dead teaching code in an interactive notebook; a visible
+  value may document or reset state between cells. Likewise, conformance alone
+  is a low-impact repair unless the governing guideline is explicit or the
+  inconsistency is visible in the recording.
 - Reconcile the two independent reports before editing. Run one shared focused
   challenge only when the reconciliation rejects or materially rewrites a
   finding, changes executable/model-visible behavior, cuts a `READ` surface,
