@@ -35,9 +35,10 @@ govern notebook content; the handoff governs current state and workflow.
   continuous render, guidelines, and outline. Re-hash the notebook at ruling
   time; never resolve a moving `HEAD` as the comparison artifact.
 - The pinned preflight establishes deterministic structure, validation,
-  stripping, cell IDs, adjacency, parse status, line counts, word counts, and
-  locator candidates. Once both notebook and preflight pins match, reviewers
-  do not re-derive those facts. They report only discrepancies.
+  stripping, cell IDs, adjacency, parse status, line counts, word counts,
+  explicit-rule conformance, and locator candidates. Once both notebook and
+  preflight pins match, reviewers do not re-derive those facts. They report
+  only discrepancies.
 - Deterministic locators surface candidates; they never decide findings.
   Width, similarity, unused-name, failure-voice, banner, and exercise-title
   counts require a teaching judgment tied to the visible artifact.
@@ -66,6 +67,12 @@ govern notebook content; the handoff governs current state and workflow.
   value may document or reset state between cells. Likewise, conformance alone
   is a low-impact repair unless the governing guideline is explicit or the
   inconsistency is visible in the recording.
+- Before filing a deletion as dead or redundant, stage 1 must test the
+  interactive notebook paths the line can affect: rerunning its cell after a
+  prior successful state, running the owning section after a restart, and any
+  immediate out-of-order path invited by the surface. Report the resulting
+  state or display consequence. A static unused-name or tautology result is a
+  locator, not evidence that the line should be deleted.
 - Reconcile the two independent reports before editing. Run one shared focused
   challenge only when the reconciliation rejects or materially rewrites a
   finding, changes executable/model-visible behavior, cuts a `READ` surface,
